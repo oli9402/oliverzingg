@@ -1,0 +1,7 @@
+# Private CV (contains address, phone, date of birth, transcripts)
+CV-202611.pdf
+
+# Old Quarto site (has its own repo: github.com/oli9402/Portfolio)
+Portfolio-Quarto/
+
+.DS_Store
