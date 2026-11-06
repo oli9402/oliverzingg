@@ -57,7 +57,7 @@ export default function Timeline() {
           {jobs.map((b) => <Bar key={b.id} {...b} />)}
           <Link href="/#contact" className="tl-next" style={{ left: `${pct('2027-01')}%`, width: `${100 - pct('2027-01')}%` }}>
             <b>Next</b>
-            <span>Full-time data science role</span>
+            <span>Full-time role</span>
           </Link>
         </div>
         <div className="tl-today" style={{ left: `${pct(TODAY)}%` }} aria-hidden />

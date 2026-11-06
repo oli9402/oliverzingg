@@ -34,7 +34,7 @@
 }
 
 @media (max-width: 960px) {
-  :root { --gutter: 16px; }
+  :root { --gutter: 24px; }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -178,7 +178,7 @@ html { scrollbar-color: var(--line-strong) transparent; }
 }
 
 /* ---------- home: timeline ---------- */
-.path { padding: 104px 0 24px; }
+.path { padding-top: 104px; padding-bottom: 24px; }
 .path-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 32px; flex-wrap: wrap; }
 .path-head p { margin: 12px 0 0; }
 .legend { display: flex; gap: 22px; font-size: 14.5px; color: var(--mute); }
@@ -208,7 +208,7 @@ html { scrollbar-color: var(--line-strong) transparent; }
 .tl-today::before { content: 'Today'; position: absolute; top: -26px; left: 50%; transform: translateX(-50%); background: var(--hi); color: var(--ink); font: 700 11px var(--mono); text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 4px; white-space: nowrap; }
 
 /* ---------- home: tabbed index ---------- */
-.index { padding: 96px 0 24px; }
+.index { padding-top: 96px; padding-bottom: 24px; }
 .index-head { display: flex; justify-content: space-between; align-items: end; gap: 32px; border-bottom: 2px solid var(--ink); padding-bottom: 18px; }
 .tabs { display: flex; gap: 4px; background: var(--surface); padding: 5px; border-radius: var(--radius-lg); flex: none; }
 .tab { all: unset; cursor: pointer; padding: 10px 18px; border-radius: 7px; font-weight: 600; color: var(--mute); transition: color 0.15s, background-color 0.15s; }
@@ -273,7 +273,7 @@ html { scrollbar-color: var(--line-strong) transparent; }
 @media (max-width: 860px) { .close .wrap { flex-direction: column; align-items: flex-start; padding-top: 56px; padding-bottom: 56px; } .close-actions { align-items: flex-start; } }
 
 .site-footer { background: var(--night); color: var(--night-mute); font-size: 14.5px; }
-.site-footer .wrap { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 32px; padding-top: 56px; padding-bottom: 40px; }
+.site-footer .wrap { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 32px; padding-top: 64px; padding-bottom: calc(48px + env(safe-area-inset-bottom)); }
 .site-footer h2 { color: #fff; font-size: 15px; font-weight: 600; margin-bottom: 12px; }
 .site-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .site-footer a:hover { color: #fff; }
@@ -452,7 +452,7 @@ html { scrollbar-color: var(--line-strong) transparent; }
 @media (max-width: 860px) { .area-row { grid-template-columns: 1fr; gap: 12px; } .area-row .n { font-size: 52px; } }
 
 /* ---------- experience page ---------- */
-.cv-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 48px; padding: 56px 0 0; }
+.cv-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 48px; padding-top: 56px; }
 .cv-block + .cv-block { margin-top: 72px; }
 .cv-entry { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 24px; padding: 26px 0; border-bottom: 1px solid var(--line); }
 .cv-entry:first-of-type { border-top: 2px solid var(--ink); }
@@ -498,7 +498,7 @@ html { scrollbar-color: var(--line-strong) transparent; }
 .search-empty { padding: 32px 20px; color: var(--mute); text-align: center; }
 
 /* ---------- not found ---------- */
-.nf { min-height: 60vh; display: grid; align-content: center; gap: 24px; padding: 80px 0; }
+.nf { min-height: 60vh; display: grid; align-content: center; gap: 24px; padding-top: 80px; padding-bottom: 80px; }
 
 /* ---------- print (experience page doubles as a printable CV) ---------- */
 @media print {
@@ -506,7 +506,7 @@ html { scrollbar-color: var(--line-strong) transparent; }
   .page-band { background: none; color: var(--ink); padding: 0 0 16px; }
   .page-band .lede { color: var(--mute); }
   body { font-size: 11pt; }
-  .cv-grid { grid-template-columns: 1fr; padding-top: 12px; }
+  .cv-grid { grid-template-columns: 1fr; padding-top: 12px; padding-left: 0; padding-right: 0; }
   .cv-entry { break-inside: avoid; padding: 10px 0; grid-template-columns: 150px 1fr; }
   .cv-block + .cv-block { margin-top: 24px; }
   a { color: inherit; }
@@ -542,3 +542,8 @@ html { scrollbar-color: var(--line-strong) transparent; }
 
 /* printed program output (```output blocks in Markdown) */
 .prose pre.output { background: #fff; border-style: dashed; color: var(--ink-2); }
+
+/* breathing room between the page body and the footer
+   (the home page ends on the yellow contact band, which sits flush on the footer) */
+#main { padding-bottom: clamp(80px, 10vw, 136px); }
+#main:has(> .close:last-child) { padding-bottom: 0; }

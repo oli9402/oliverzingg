@@ -17,7 +17,7 @@ export default function ProjectsPage() {
           <p className="lede">Two theses graded 6, plus analyses, simulations and tools in R and Python. Each one has the code and the reasoning behind it.</p>
         </div>
       </section>
-      <div className="wrap" style={{ paddingBottom: 40 }}>
+      <div className="wrap">
         <ProjectGrid projects={projects} />
       </div>
     </>
