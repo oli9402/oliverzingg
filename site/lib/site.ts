@@ -4,7 +4,7 @@ export const site = {
   description:
     'Psychologist and data scientist in Zürich. Projects, a public knowledge base on statistics, linear algebra and Python, and my experience.',
   // Set SITE_URL when you know the domain, e.g. SITE_URL=https://oliverzingg.ch npm run build
-  url: process.env.SITE_URL || 'https://oliverzingg.example',
+  url: (process.env.SITE_URL || 'https://oli9402.github.io/oliverzingg').replace(/\/$/, ''),
   email: 'oliver9402@gmail.com',
   location: 'Zürich, Switzerland',
   links: {

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   title: { default: site.title, template: '%s · Oliver Zingg' },
   description: site.description,
   authors: [{ name: site.name }],
-  openGraph: { type: 'website', siteName: site.name, title: site.title, description: site.description, images: ['/images/oliver.jpg'] },
+  openGraph: { type: 'website', siteName: site.name, title: site.title, description: site.description, images: [`${site.url}/images/oliver.jpg`] },
   twitter: { card: 'summary_large_image' },
 };
 

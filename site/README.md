@@ -78,7 +78,8 @@ SITE_URL=https://your-domain.ch npm run build
 
 - **Netlify / Cloudflare Pages:** build command `npm run build`, output directory `out`.
 - **Vercel:** import the repo; it detects Next.js. Static export works as is.
-- **GitHub Pages (project site, e.g. `oli9402.github.io/Portfolio`):** build with `BASE_PATH=/Portfolio SITE_URL=https://oli9402.github.io/Portfolio npm run build`, then publish `out/` (add an empty `out/.nojekyll` so `_next/` is served).
+- **GitHub Pages (set up):** `.github/workflows/deploy.yml` builds and publishes on every push to `main`, at `https://oli9402.github.io/oliverzingg/`. One-time step: in the repo, Settings → Pages → Source: **GitHub Actions**. To preview that exact build locally: `BASE_PATH=/oliverzingg npm run build`.
+- **Custom domain later:** add the domain in Settings → Pages, put the domain name in `site/public/CNAME`, and in the workflow set `BASE_PATH: ""` and `SITE_URL: https://your-domain`.
 - **Any server (nginx, a VPS):** copy `out/` to the web root. Pages are folders with `index.html` (`trailingSlash: true`), so no rewrite rules are needed; point 404s at `/404.html`.
 
 If you later want server features (a contact form, analytics, drafts), remove `output: 'export'` from `next.config.ts` and host on a Node-capable platform.
