@@ -26,43 +26,53 @@ Node 20 or newer.
 | `DESIGN.md` | The design system (colours, type, rules). Read it before adding new pages. |
 | `PRODUCT.md` | Who the site is for and what it must say. |
 
-## Add a project
+## Writing posts and notes
 
-Create `content/projects/my-project.md`:
+Everything in `content/` is plain Markdown. No R, Quarto or build step is needed to write.
 
-```markdown
+**Start a new one:**
+
+```bash
+npm run new -- project "Double machine learning for pricing"
+npm run new -- note statistics "Bayesian inference"
+npm run new -- note causal-inference "Instrumental variables"   # new area, folder is created
+```
+
+That creates the file with its front matter filled in. Run `npm run dev` and the page updates as you type. You can also edit any file directly on github.com (open it, click the pencil, commit); the site redeploys in about two minutes.
+
+**Front matter (projects):**
+
+```yaml
 ---
 title: "Short, specific title"
 summary: "One or two sentences shown on cards and in search."
 year: 2026
-kind: "Machine learning"        # used for the filter on /projects
+kind: "Machine learning"        # the filter on /projects
 tags: ["Python", "scikit-learn"]
-order: 3                        # lower = earlier; the first five appear on the home page
-cover: "/media/projects/my-project/cover.jpg"   # optional; put the file in public/media/...
+order: 3                        # lower comes first; the first five are on the home page
+cover: "/media/projects/my-project/cover.jpg"   # optional
 ---
-
-## The question
-
-Write in Markdown. Math works inline $\hat\beta$ and in blocks:
-
-$$
-\operatorname{logit}(p) = \beta_0 + \beta_1 x
-$$
-
-```python
-print("code is highlighted")
 ```
-```
+
+Notes only need `title` and `order`. Each area folder has an `_area.md` with the area's title, summary and order.
+
+**What you can write:**
+
+| You write | You get |
+| --- | --- |
+| `## Heading`, `### Subheading` | Sections and the "On this page" list |
+| `$\hat\beta$` | Inline math |
+| `$$` on its own line, TeX, `$$` | Display math (use `aligned`, not `align`, inside it) |
+| A fenced block with a language, e.g. three backticks plus `r` or `python` | Highlighted code; blocks over 12 lines start folded behind "Show code" |
+| A fenced block marked `output` | Printed program output (dashed box) |
+| `![Alt text](/media/projects/my-project/plot.png)` | An image; put the file in `public/media/...` |
+| `> [!NOTE] Optional title` followed by `> text` lines | A callout. Also `TIP`, `IMPORTANT`, `WARNING`, `CAUTION` |
+| `\$` | A literal dollar sign (a bare `$` starts math) |
+| GitHub-style tables, lists, links, footnotes | As usual |
 
 Covers ending in `.png` or `.svg` are treated as charts (shown whole on white). Photos (`.jpg`) fill their frame.
 
-## Add a note
-
-Create `content/wiki/statistics/bayesian-inference.md` with `title` and `order` in the front matter, then write Markdown. A new area is a new folder with an `_area.md`. Notes get a table of contents (from `##`/`###` headings), previous/next links and search automatically.
-
-## The old Quarto content
-
-`scripts/migrate-quarto.mjs` converted `../Portfolio-Quarto/docs` (the rendered site, with R/Python outputs) into `content/`. Those files are `format: "html"` and have since been edited by hand (the Simpson's paradox post was translated to English), so the script refuses to run again unless you pass `--force`, which would overwrite those edits. For new writing use Markdown. To bring over a new Quarto analysis, render it in Quarto first, then copy the figures into `public/media/` and write the text in Markdown.
+To show results from R or Python, run the code wherever you like, paste the code into a code block, paste printed results into an `output` block, and save plots as images in `public/media/`.
 
 ## CV download
 

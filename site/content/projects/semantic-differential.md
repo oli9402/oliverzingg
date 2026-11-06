@@ -6,35 +6,26 @@ kind: "Visualisation"
 tags: ["UX research", "Survey data", "ggplot2"]
 order: 7
 cover: "/media/projects/semantic-differential/sem_dif2.svg"
-format: "html"
 ---
-<section id="user-experience" class="level1">
 
-<p>A common way to test user experience of a product of app is to use semantic difference scales where adjectives of for example opposite meaning are placed compared. The customer must chose to what degree one of the certain adjectives is more suited.</p>
-<section id="example" class="level2">
-<h2 class="anchored" data-anchor-id="example">Example</h2>
-<p><a href="https://www.ueq-online.org" target="_blank" rel="noopener">User Experience Questionnaire</a> is a typical questionnaire used for this purpose.</p>
-<blockquote class="blockquote">
-<p>Laugwitz, B., Held, T., &amp; Schrepp, M. (2008). Construction and evaluation of a user experience questionnaire. In HCI and Usability for Education and &gt;Work: 4th Symposium of the Workgroup Human-Computer Interaction and Usability Engineering of the Austrian Computer Society, USAB 2008, Graz, Austria, &gt;November 20-21, 2008. Proceedings 4 (pp.&nbsp;63-76). Springer Berlin Heidelberg.</p>
-</blockquote>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="/media/projects/semantic-differential/sem.png" loading="lazy"></p>
-<figcaption>Example Questionnaire: UEQ</figcaption>
-</figure>
-</div>
-</section>
-<section id="visualization-using-ggplot2" class="level2">
-<h2 class="anchored" data-anchor-id="visualization-using-ggplot2">Visualization using ggplot2</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="/media/projects/semantic-differential/sem_dif2.svg" loading="lazy"></p>
-<figcaption>Semantic Difference with 95% Confidence intervalls</figcaption>
-</figure>
-</div>
-<p><a href="https://github.com/oli9402/visualisation/tree/main/semantic_diff" target="_blank" rel="noopener">Code here</a></p>
+A common way to test user experience of a product of app is to use semantic difference scales where adjectives of for example opposite meaning are placed compared. The customer must chose to what degree one of the certain adjectives is more suited.
 
-</section>
-</section>
+## Example
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a>
+[User Experience Questionnaire](https://www.ueq-online.org) is a typical questionnaire used for this purpose.
+
+> Laugwitz, B., Held, T., & Schrepp, M. (2008). Construction and evaluation of a user experience questionnaire. In HCI and Usability for Education and >Work: 4th Symposium of the Workgroup Human-Computer Interaction and Usability Engineering of the Austrian Computer Society, USAB 2008, Graz, Austria, >November 20-21, 2008. Proceedings 4 (pp. 63-76). Springer Berlin Heidelberg.
+
+![Example Questionnaire: UEQ](/media/projects/semantic-differential/sem.png)
+
+*Example Questionnaire: UEQ*
+
+## Visualization using ggplot2
+
+![Semantic Difference with 95% Confidence intervalls](/media/projects/semantic-differential/sem_dif2.svg)
+
+*Semantic Difference with 95% Confidence intervalls*
+
+[Code here](https://github.com/oli9402/visualisation/tree/main/semantic_diff)
+
+Back to top

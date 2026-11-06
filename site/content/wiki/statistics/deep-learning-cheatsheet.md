@@ -1,8 +1,8 @@
 ---
 title: "Deep learning cheatsheet"
 order: 6
-format: "markdown"
 ---
+
 # 
 
 Deep Learning models are differential functions!

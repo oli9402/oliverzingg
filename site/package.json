@@ -7,8 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "npx serve@14 out",
-    "migrate": "node scripts/migrate-quarto.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "new": "node scripts/new.mjs"
   },
   "engines": {
     "node": ">=20"
@@ -35,7 +35,9 @@
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "cheerio": "^1.1.0",
     "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "katex": "$katex"
   }
 }

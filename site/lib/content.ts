@@ -49,12 +49,84 @@ export type Note = {
 
 /* ---------- rendering ---------- */
 
+// Minimal hast types, enough for the two small transforms below.
+type HNode = { type: string; tagName?: string; value?: string; properties?: Record<string, unknown>; children?: HNode[] };
+const text = (n: HNode): string => (n.type === 'text' ? n.value || '' : (n.children || []).map(text).join(''));
+const h = (tagName: string, properties: Record<string, unknown>, children: HNode[]): HNode => ({ type: 'element', tagName, properties, children });
+
+/**
+ * `> [!NOTE] Optional title` (GitHub alert syntax) becomes a callout.
+ * Types: NOTE, TIP, IMPORTANT, WARNING, CAUTION.
+ */
+function rehypeCallouts() {
+  const walk = (node: HNode) => {
+    node.children?.forEach((child, i) => {
+      if (child.tagName === 'blockquote') {
+        const first = child.children?.find((c) => c.tagName === 'p');
+        const lead = first?.children?.[0];
+        const m = lead?.type === 'text' && lead.value?.match(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\][ \t]*([^\n]*)\n?/i);
+        if (first && lead && m) {
+          const type = m[1].toLowerCase();
+          lead.value = lead.value!.slice(m[0].length);
+          // the rest of the first line (text and inline math) is the title
+          const titleNodes: HNode[] = [];
+          if (m[2]) titleNodes.push({ type: 'text', value: m[2] });
+          if (!m[0].endsWith('\n')) {
+            while (first.children!.length && !(first.children![0].type === 'text' && first.children![0].value!.includes('\n'))) {
+              const n = first.children!.shift()!;
+              if (n.type === 'text' && !n.value) continue;
+              titleNodes.push(n);
+            }
+            const nl = first.children![0];
+            if (nl?.type === 'text') {
+              const [before, ...after] = nl.value!.split('\n');
+              if (before) titleNodes.push({ type: 'text', value: before });
+              nl.value = after.join('\n');
+            }
+          }
+          const label = type[0].toUpperCase() + type.slice(1);
+          const body = (child.children || []).filter((c) => !(c === first && !text(first).trim()));
+          node.children![i] = h('aside', { className: ['callout', `callout-${type}`] }, [
+            h('p', { className: ['callout-title'] }, titleNodes.length ? titleNodes : [{ type: 'text', value: label }]),
+            ...body,
+          ]);
+        }
+      }
+      walk(child);
+    });
+  };
+  return (tree: HNode) => walk(tree);
+}
+
+/** Long code blocks start folded, as on the old site; printed output always shows. */
+const FOLD_AFTER_LINES = 12;
+function rehypeFoldCode() {
+  const walk = (node: HNode) => {
+    node.children?.forEach((child, i) => {
+      if (child.tagName === 'pre') {
+        const code = child.children?.find((c) => c.tagName === 'code');
+        const cls = ([] as string[]).concat((code?.properties?.className as string[]) || []);
+        const lines = text(child).replace(/\n$/, '').split('\n').length;
+        if (!cls.includes('language-output') && lines > FOLD_AFTER_LINES) {
+          node.children![i] = h('details', { className: ['code-fold'] }, [h('summary', {}, [{ type: 'text', value: `Show code (${lines} lines)` }]), child]);
+        }
+        if (cls.includes('language-output')) child.properties = { ...child.properties, className: ['output'] };
+        return;
+      }
+      walk(child);
+    });
+  };
+  return (tree: HNode) => walk(tree);
+}
+
 const markdown = unified()
   .use(remarkParse)
   .use(remarkGfm)
   .use(remarkMath)
   .use(remarkRehype, { allowDangerousHtml: true })
   .use(rehypeRaw)
+  .use(rehypeCallouts)
+  .use(rehypeFoldCode)
   .use(rehypeSlug)
   .use(rehypeKatex, { strict: false, throwOnError: false })
   .use(rehypeHighlight, { detect: false, ignoreMissing: true } as never)

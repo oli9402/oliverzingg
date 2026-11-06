@@ -539,3 +539,6 @@ html { scrollbar-color: var(--line-strong) transparent; }
 .tl-bar.is-narrow b { font-size: 12px; letter-spacing: -0.01em; overflow: visible; }
 .tl-bar.is-narrow span { display: none; }
 .tl-bar.is-narrow { overflow: visible; } .tl-bar.is-narrow b { overflow: visible; text-overflow: clip; }
+
+/* printed program output (```output blocks in Markdown) */
+.prose pre.output { background: #fff; border-style: dashed; color: var(--ink-2); }

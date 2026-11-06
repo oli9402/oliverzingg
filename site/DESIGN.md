@@ -213,7 +213,7 @@ Image (4:3, 16:9.4 when wide) with type and year on one row, then a 22px bold ti
 Education bars sit above a 2px ink axis in Ultramarine Wash (ongoing: solid ultramarine); work bars below in Surface (ongoing: ink). The today marker is a yellow rule with a yellow label. The future slot is a dashed ultramarine outline.
 
 ### Prose
-Migrated Quarto HTML and Markdown share one style: tinted code blocks with a single syntax palette (keywords deep ultramarine, strings green, numbers amber, comments slate italic), dashed borders on code output, "Show code" toggles as wash pills, callouts as tinted panels with no side stripe, and KaTeX math.
+Markdown content is styled as: tinted code blocks with a single syntax palette (keywords deep ultramarine, strings green, numbers amber, comments slate italic), dashed borders on code output, "Show code" toggles as wash pills for long blocks, callouts as tinted panels with no side stripe, and KaTeX math.
 
 ## Do's and Don'ts
 
