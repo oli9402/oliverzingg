@@ -33,10 +33,9 @@ jobs:
       - name: Build static site
         run: npm run build
         env:
-          # Project site lives at https://oli9402.github.io/oliverzingg/.
-          # With a custom domain later: set BASE_PATH to "" and SITE_URL to the domain.
-          BASE_PATH: /oliverzingg
-          SITE_URL: https://oli9402.github.io/oliverzingg
+          # Served from the custom domain root, so no base path.
+          BASE_PATH: ""
+          SITE_URL: https://oliver-zingg.ch
           NEXT_TELEMETRY_DISABLED: 1
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
