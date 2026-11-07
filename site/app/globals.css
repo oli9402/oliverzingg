@@ -561,3 +561,12 @@ html.to-neon body { animation: to-neon 0.45s cubic-bezier(0.6, 0, 1, 1) forwards
 .is-home .theme-toggle-clean { background: var(--hi); color: var(--ink); border-color: var(--hi); }
 .is-home .theme-toggle-clean span { color: var(--ink); }
 @media (max-width: 860px) { .theme-toggle-clean, .is-home .theme-toggle-clean { margin: 12px 0 0; justify-content: center; } }
+
+/* status log (/now/) */
+.statuslog { list-style: none; margin: 0; padding: 48px 0 0; max-width: 880px; }
+.statuslog li { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 24px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+.statuslog li:first-child { border-top: 2px solid var(--ink); }
+.statuslog time { font-weight: 600; color: var(--blue); padding-top: 3px; }
+.statuslog .prose > :last-child { margin-bottom: 0; }
+.statuslog li.is-latest time::after { content: 'Latest'; display: inline-block; margin-left: 8px; background: var(--hi); color: var(--ink); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 6px; border-radius: 4px; vertical-align: 2px; }
+@media (max-width: 640px) { .statuslog li { grid-template-columns: 1fr; gap: 6px; } }

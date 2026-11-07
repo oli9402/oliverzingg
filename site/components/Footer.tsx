@@ -15,6 +15,7 @@ export default function Footer() {
             <li><Link href="/projects/">Projects</Link></li>
             <li><Link href="/wiki/">Knowledge base</Link></li>
             <li><Link href="/experience/">Experience</Link></li>
+            <li><Link href="/now/">Status log</Link></li>
           </ul>
         </div>
         <div>

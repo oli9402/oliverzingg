@@ -261,3 +261,30 @@ export function getNote(area: string, slug: string) {
   if (!a || i < 0) return undefined;
   return { area: a, note: a.notes[i], prev: a.notes[i - 1], next: a.notes[i + 1] };
 }
+
+/* ---------- status log (content/now.md) ---------- */
+
+export type LogEntry = { date: string; label: string; html: string; text: string };
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+let logCache: { title: string; summary: string; entries: LogEntry[] } | null = null;
+export function getLog() {
+  if (logCache) return logCache;
+  const { data, content } = matter(fs.readFileSync(path.join(CONTENT, 'now.md'), 'utf8'));
+  const body = content.replace(/<!--[\s\S]*?-->/g, '');
+  const entries = body
+    .split(/^## /m)
+    .slice(1)
+    .map((chunk) => {
+      const [first, ...rest] = chunk.split('\n');
+      const date = first.trim();
+      const [y, m, d] = date.split('-').map(Number);
+      const label = d ? `${d} ${MONTHS[m - 1]} ${y}` : m ? `${MONTHS[m - 1]} ${y}` : String(y);
+      const html = render(rest.join('\n').trim(), 'markdown');
+      return { date, label, html, text: stripTags(html) };
+    })
+    .sort((a, b) => (a.date < b.date ? 1 : -1));
+  logCache = { title: data.title || 'Status log', summary: data.summary || '', entries };
+  return logCache;
+}

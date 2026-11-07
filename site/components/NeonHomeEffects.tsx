@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { openDossier } from './Dossier';
 
 type Bank = { dir: string; notes: { slug: string; title: string; minutes: number; href: string }[] }[];
 
@@ -49,9 +50,31 @@ export default function NeonHomeEffects({ projectCount, noteCount }: { projectCo
         'LINK  zurich_insurance ........... ACTIVE',
         '',
         'IDENTITY VERIFIED: ZINGG, OLIVER',
-        'STARTING CITY VIEW_',
+        'SELECT ACCESS MODE:',
       ];
       let i = 0, done = false, h = 0;
+      let menu = false;
+      const choose = (k: string) => {
+        if (k === '1') { finish(); window.setTimeout(openDossier, 350); }
+        else if (k === '2') { finish(); router.push('/experience/'); }
+        else finish();
+      };
+      const showMenu = () => {
+        if (done || menu) return;
+        menu = true;
+        const m = document.createElement('div');
+        m.className = 'boot-menu';
+        m.setAttribute('role', 'group');
+        m.setAttribute('aria-label', 'Choose how to view the site');
+        [['1', '[1] QUICK DOSSIER · 30s'], ['2', '[2] FULL RECORD'], ['3', '[3] EXPLORE THE CITY']].forEach(([k, label]) => {
+          const b = document.createElement('button');
+          b.textContent = label;
+          b.onclick = (e) => { e.stopPropagation(); choose(k); };
+          m.appendChild(b);
+        });
+        log.parentElement!.appendChild(m);
+        (m.firstChild as HTMLButtonElement).focus();
+      };
       const finish = () => {
         if (done) return;
         done = true;
@@ -63,10 +86,17 @@ export default function NeonHomeEffects({ projectCount, noteCount }: { projectCo
       const step = () => {
         if (done) return;
         if (i < lines.length) { log.textContent += lines[i++] + '\n'; h = window.setTimeout(step, i === lines.length ? 500 : 150 + Math.random() * 120); }
-        else h = window.setTimeout(finish, 450);
+        else showMenu();
       };
-      const onKey = (e: KeyboardEvent) => { if (['Escape', 'Enter', ' '].includes(e.key)) { e.preventDefault(); finish(); } };
-      boot.addEventListener('click', finish);
+      const onKey = (e: KeyboardEvent) => {
+        if (done) return;
+        if (['1', '2', '3'].includes(e.key)) { e.preventDefault(); if (!menu) { log.textContent = lines.join('\n') + '\n'; showMenu(); } choose(e.key); return; }
+        if (e.key === 'Escape') { e.preventDefault(); finish(); return; }
+        // Enter/space before the menu appears skips the typing; on the menu they press the focused button
+        if ((e.key === 'Enter' || e.key === ' ') && !menu) { e.preventDefault(); i = lines.length; log.textContent = lines.join('\n') + '\n'; showMenu(); }
+      };
+      document.getElementById('skip')?.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); finish(); });
+      boot.addEventListener('click', () => { if (menu) finish(); else { i = lines.length; log.textContent = lines.join('\n') + '\n'; showMenu(); } });
       window.addEventListener('keydown', onKey);
       cleanups.push(() => { clearTimeout(h); window.removeEventListener('keydown', onKey); });
       const neonOn = document.documentElement.dataset.theme !== 'clean';

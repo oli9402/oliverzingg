@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import Link from 'next/link';
 import NeonHomeEffects from './NeonHomeEffects';
-import { getAreas, getProjects } from '@/lib/content';
+import { getAreas, getLog, getProjects } from '@/lib/content';
 import { education, work, skills, languages, certificates, toYear, TODAY } from '@/lib/cv';
 import { site, withBase } from '@/lib/site';
 
@@ -38,7 +38,10 @@ export default function NeonHome() {
   };
   const current = work.find((w) => !w.end)!;
   
+  const latest = getLog().entries[0];
+  const latestLine = latest ? `LOG ${latest.label.toUpperCase()}: ${latest.text.length > 90 ? latest.text.slice(0, 90).replace(/\s\S*$/, '') + '…' : latest.text}` : null;
   const ticker = [
+    ...(latestLine ? [latestLine] : []),
     `NOW: ${current.org.toUpperCase()} — DATA SCIENCE & PM`,
     `M.SC. DATA SCIENCE @ HSLU UNTIL 12.2026`,
     `M.SC. & B.SC. PSYCHOLOGY @ UZH`,

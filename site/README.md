@@ -103,6 +103,25 @@ The site has two looks, chosen with the button at the top right and remembered p
 
 Both themes render the same pages; `<html data-theme="neon|clean">` decides which chrome shows (`.neon-only`, `.clean-only`). A script in `<head>` applies the stored choice before the first paint. The code ↑↑↓↓←→←→BA flips between them too.
 
+## Status log
+
+`content/now.md` holds short dated updates, shown at `/now/` (LOG in neon mode). Add an entry at the top:
+
+```markdown
+## 2026-12-15
+
+Submitted my M.Sc. thesis on double machine learning.
+```
+
+The newest entry also scrolls through the home page ticker.
+
+## Neon extras
+
+- **Boot menu** (first home visit per session): [1] quick dossier, [2] full record, [3] explore. The dossier is `components/Dossier.tsx`.
+- **Live Zürich city:** `lib/zurich.ts` reads the time of day and current weather from Open-Meteo (free, no key; visitors' browsers call `api.open-meteo.com`). Day, dusk, dawn and night skies; real rain, snow, fog and thunderstorms; the HUD shows the reading.
+- **Sound:** off by default; the ♪ button in the HUD turns on synthesised rain and 8-bit blips (`lib/sound.ts`, no audio files).
+- **Terminal:** press the backtick key (or TERM in the HUD). `help` lists commands: `ls`, `cd`, `cat cv`, `open`, `grep`, `dossier`, `hire`, `weather`, `theme`, `sound`. Commands live in `components/Terminal.tsx`.
+
 ## Search
 
 `/search-index.json` is generated at build time from every project and note. The search dialog (press `/` or ⌘K) loads it on first use and searches entirely in the browser.

@@ -5,9 +5,13 @@ import SecretCode from '@/components/SecretCode';
 import NeonBackdrop from '@/components/NeonBackdrop';
 import NeonHud from '@/components/NeonHud';
 import NeonFooter from '@/components/NeonFooter';
+import Terminal from '@/components/Terminal';
+import Dossier from '@/components/Dossier';
+import { getProfile } from '@/lib/profile';
 
 /** Shell for every page. Both themes' chrome is rendered; CSS shows the active one. */
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
+  const profile = getProfile();
   return (
     <>
       <a href="#main" className="skip">Skip to content</a>
@@ -19,6 +23,8 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <NeonFooter />
       <SearchDialog />
       <SecretCode />
+      <Terminal profile={profile} />
+      <Dossier profile={profile} />
     </>
   );
 }
