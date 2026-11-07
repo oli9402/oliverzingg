@@ -2,9 +2,6 @@ import type { Metadata, Viewport } from 'next';
 import { Archivo, JetBrains_Mono } from 'next/font/google';
 import 'katex/dist/katex.min.css';
 import './globals.css';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import SearchDialog from '@/components/SearchDialog';
 import { site } from '@/lib/site';
 
 const archivo = Archivo({ subsets: ['latin', 'latin-ext'], axes: ['wdth'], variable: '--font-archivo', display: 'swap' });
@@ -24,13 +21,7 @@ export const viewport: Viewport = { themeColor: '#2340d9' };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${archivo.variable} ${mono.variable}`}>
-      <body>
-        <a href="#main" className="skip">Skip to content</a>
-        <Header />
-        <main id="main">{children}</main>
-        <Footer />
-        <SearchDialog />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

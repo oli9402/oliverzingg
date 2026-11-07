@@ -34,6 +34,7 @@ export default function Footer() {
         <div className="fine">
           <span>© {new Date().getFullYear()} Oliver Zingg</span>
           <span>Notes are my own learning material. Corrections welcome.</span>
+          <Link href="/neon/" className="secret" title="Or type the code anywhere on the site">↑↑↓↓←→←→BA</Link>
         </div>
       </div>
     </footer>
