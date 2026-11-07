@@ -1,3 +1,4 @@
+import { ViewTransition } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SearchDialog from '@/components/SearchDialog';
@@ -18,7 +19,10 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <NeonBackdrop />
       <NeonHud />
       <Header />
-      <main id="main">{children}</main>
+      <main id="main">
+        {/* page content swaps with a CRT switch-off/on (theme-neon.css: ::view-transition-*(.crt)) */}
+        <ViewTransition default="crt">{children}</ViewTransition>
+      </main>
       <Footer />
       <NeonFooter />
       <SearchDialog />

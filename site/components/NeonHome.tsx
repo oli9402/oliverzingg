@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import Link from 'next/link';
 import NeonHomeEffects from './NeonHomeEffects';
+import PixelCover from './PixelCover';
 import { getAreas, getLog, getProjects } from '@/lib/content';
 import { education, work, skills, languages, certificates, toYear, TODAY } from '@/lib/cv';
 import { site, withBase } from '@/lib/site';
@@ -168,6 +169,7 @@ export default function NeonHome() {
                 <div className={`thumb${p.cover && /\.(png|svg)$/i.test(p.cover) ? ' fig' : ''}`}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   {p.cover ? <img src={p.cover} alt="" loading="lazy" /> : null}
+                  <span className="pc-art"><PixelCover slug={p.slug} kind={p.kind} art={p.art} /></span>
                 </div>
                 <div className="no"><span>CASE {String(i + 1).padStart(3, '0')} · {p.kind.toUpperCase()}</span><span>{p.year}</span></div>
                 <h3>{p.title}</h3>

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default function ProjectsPage() {
-  const projects = getProjects().map(({ slug, title, summary, year, kind, cover }) => ({ slug, title, summary, year, kind, cover }));
+  const projects = getProjects().map(({ slug, title, summary, year, kind, cover, art }) => ({ slug, title, summary, year, kind, cover, art }));
   return (
     <>
       <section className="page-band on-blue">

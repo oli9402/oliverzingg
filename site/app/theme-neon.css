@@ -327,3 +327,45 @@ html[data-theme='neon'] .statuslog li.is-latest time::after { content: '] ◀ NE
 .neon-root .boot-menu button:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--amber-d); }
 .nz-footer .nz-hint { color: #6d6496; }
 .term-in input:focus-visible { outline: none; }
+
+/* ==========================================================================
+   Design pass 2: readable display type, pixel covers, page transitions
+   ========================================================================== */
+
+/* Press Start 2P stays for short labels and page titles; long titles use Pixelify Sans */
+html[data-theme='neon'] { --title: var(--font-pixsans), var(--font-vt), monospace; }
+html[data-theme='neon'] .h-article { font: 700 clamp(28px, 3.6vw, 48px)/1.1 var(--title); letter-spacing: 0.01em; }
+html[data-theme='neon'] .pcard h3 { font: 600 20px/1.2 var(--title); letter-spacing: 0.01em; }
+html[data-theme='neon'] .pcard.wide h3 { font-size: 26px; }
+html[data-theme='neon'] .prose h2 { font: 700 27px/1.2 var(--title); letter-spacing: 0.01em; text-shadow: 2px 2px 0 var(--amber-d); }
+html[data-theme='neon'] .prose h3 { font: 600 21px/1.25 var(--title); }
+html[data-theme='neon'] .area-row h2 { font: 700 26px/1.15 var(--title); }
+html[data-theme='neon'] .pager b { font: 600 18px/1.25 var(--title); }
+html[data-theme='neon'] .cv-entry h3 { font: 600 20px/1.25 var(--title); }
+html[data-theme='neon'] .wnav .area { font: 700 17px/1.3 var(--title); }
+html[data-theme='neon'] .search-results b { font: 600 20px/1.25 var(--title); }
+.dossier .dc-t b { font: 600 17px/1.25 var(--font-pixsans), monospace; }
+
+/* pixel covers: art on top, the real image underneath; hover switches channel */
+.pc-art { position: absolute; inset: 0; z-index: 1; display: block; transition: opacity 0.15s steps(3); }
+.pixel-cover { width: 100%; height: 100%; display: block; image-rendering: pixelated; object-fit: cover; }
+html[data-theme='neon'] .pcard .img { position: relative; }
+html[data-theme='neon'] .pcard:hover .pc-art, html[data-theme='neon'] .pcard:focus-visible .pc-art { opacity: 0; }
+html[data-theme='neon'] .pcard .img::after { z-index: 2; }
+html[data-theme='neon'] .pcard:hover .img { animation: nz-static 0.18s steps(3); }
+@keyframes nz-static { 0% { filter: contrast(3) brightness(1.8) saturate(0); } 60% { filter: hue-rotate(90deg); } 100% { filter: none; } }
+
+/* ---------- CRT page transitions (React <ViewTransition>) ---------- */
+::view-transition-old(.crt), ::view-transition-new(.crt) { animation-duration: 0.34s; mix-blend-mode: normal; }
+html[data-theme='neon']::view-transition-old(.crt) { animation: nz-crt-off 0.2s cubic-bezier(0.6, 0, 1, 1) both; }
+html[data-theme='neon']::view-transition-new(.crt) { animation: nz-crt-on 0.28s 0.12s cubic-bezier(0, 0, 0.2, 1) both; }
+html[data-theme='clean']::view-transition-old(.crt) { animation: oz-fade-out 0.16s ease-in both; }
+html[data-theme='clean']::view-transition-new(.crt) { animation: oz-fade-in 0.22s 0.06s ease-out both; }
+@keyframes nz-crt-off { 0% { transform: none; filter: none; opacity: 1; } 70% { transform: scaleY(0.01); filter: brightness(3) saturate(0); opacity: 1; } 100% { transform: scale(0.2, 0.004); filter: brightness(4); opacity: 0; } }
+@keyframes nz-crt-on { 0% { transform: scale(0.2, 0.004); filter: brightness(4); opacity: 0; } 35% { transform: scaleY(0.02); filter: brightness(3) saturate(0); opacity: 1; } 100% { transform: none; filter: none; opacity: 1; } }
+@keyframes oz-fade-out { to { opacity: 0; transform: translateY(-6px); } }
+@keyframes oz-fade-in { from { opacity: 0; transform: translateY(8px); } }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(.crt), ::view-transition-new(.crt) { animation: none !important; }
+}
+html[data-theme='neon'] .pcard .img, html[data-theme='neon'] .pcard.wide .img { aspect-ratio: 16 / 10; }

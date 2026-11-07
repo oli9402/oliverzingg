@@ -60,7 +60,7 @@ export default function Home() {
       </section>
 
       <HomeIndex
-        projects={projects.slice(0, 5).map(({ slug, title, summary, year, kind, cover }) => ({ slug, title, summary, year, kind, cover }))}
+        projects={projects.slice(0, 5).map(({ slug, title, summary, year, kind, cover, art }) => ({ slug, title, summary, year, kind, cover, art }))}
         projectCount={projects.length}
         areas={areas.map((a) => ({ slug: a.slug, title: a.title, summary: a.summary, count: a.notes.length, notes: a.notes.slice(0, 3).map(({ slug, title }) => ({ slug, title })) }))}
         work={work.filter((w) => w.id !== 'vebego' && w.id !== 'tx-freelance').map((w) => (w.id === 'tx-intern' ? { ...toRow(w), range: 'Nov 2023 – Mar 2025', title: 'Intern, then freelancer' } : toRow(w)))}

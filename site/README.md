@@ -70,6 +70,8 @@ Notes only need `title` and `order`. Each area folder has an `_area.md` with the
 | `\$` | A literal dollar sign (a bare `$` starts math) |
 | GitHub-style tables, lists, links, footnotes | As usual |
 
+In neon mode every project card shows 16-bit cover art from `components/PixelCover.tsx` (hover reveals the real cover). Pick a scene with `art:` in the front matter: `eeg`, `mri`, `simpson`, `likert`, `slides`, `headlines`, `semdif`, `simulation`, `ci`, `annotate`, `boxplot`, `rpkg` or `scatter`; without it, one is chosen from the project's `kind`.
+
 Covers ending in `.png` or `.svg` are treated as charts (shown whole on white). Photos (`.jpg`) fill their frame.
 
 To show results from R or Python, run the code wherever you like, paste the code into a code block, paste printed results into an `output` block, and save plots as images in `public/media/`.

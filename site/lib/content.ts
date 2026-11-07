@@ -27,6 +27,8 @@ export type Project = {
   tags: string[];
   order: number;
   cover?: string;
+  /** optional pixel-art scene for neon mode, see components/PixelCover.tsx */
+  art?: string;
   html: string;
   headings: Heading[];
   text: string;
@@ -205,6 +207,7 @@ export function getProjects(): Project[] {
         tags: data.tags || [],
         order: data.order ?? 99,
         cover: data.cover ? `${basePath}${data.cover}` : undefined,
+        art: data.art,
         html,
         headings,
         text,

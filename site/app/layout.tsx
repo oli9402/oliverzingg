@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Archivo, JetBrains_Mono, Press_Start_2P, VT323 } from 'next/font/google';
+import { Archivo, JetBrains_Mono, Pixelify_Sans, Press_Start_2P, VT323 } from 'next/font/google';
 import 'katex/dist/katex.min.css';
 import './globals.css';
 import './theme-neon.css';
@@ -10,6 +10,7 @@ import { themeBootScript } from '@/lib/theme';
 const archivo = Archivo({ subsets: ['latin', 'latin-ext'], axes: ['wdth'], variable: '--font-archivo', display: 'swap' });
 const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap' });
 const pixel = Press_Start_2P({ weight: '400', subsets: ['latin'], variable: '--font-pixel', display: 'swap' });
+const pixsans = Pixelify_Sans({ subsets: ['latin', 'latin-ext'], weight: ['500', '600', '700'], variable: '--font-pixsans', display: 'swap' });
 const vt = VT323({ weight: '400', subsets: ['latin'], variable: '--font-vt', display: 'swap' });
 
 export const metadata: Metadata = {
@@ -25,7 +26,7 @@ export const viewport: Viewport = { themeColor: '#07040f' };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-theme="neon" suppressHydrationWarning className={`${archivo.variable} ${mono.variable} ${pixel.variable} ${vt.variable}`}>
+    <html lang="en" data-theme="neon" suppressHydrationWarning className={`${archivo.variable} ${mono.variable} ${pixel.variable} ${vt.variable} ${pixsans.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>
