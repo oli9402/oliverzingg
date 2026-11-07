@@ -79,6 +79,7 @@ export default function NeonHomeEffects({ projectCount, noteCount }: { projectCo
         if (done) return;
         done = true;
         boot.classList.add('gone');
+        window.removeEventListener('keydown', onKey);
         try { sessionStorage.setItem('oz-neon-booted', '1'); } catch { /* ignore */ }
         window.setTimeout(() => boot.remove(), 500);
         startTyping();
@@ -89,7 +90,10 @@ export default function NeonHomeEffects({ projectCount, noteCount }: { projectCo
         else showMenu();
       };
       const onKey = (e: KeyboardEvent) => {
-        if (done) return;
+        // only while the boot screen is actually on screen, and never while typing elsewhere
+        if (done || !document.body.contains(boot)) return;
+        const t = e.target as HTMLElement;
+        if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
         if (['1', '2', '3'].includes(e.key)) { e.preventDefault(); if (!menu) { log.textContent = lines.join('\n') + '\n'; showMenu(); } choose(e.key); return; }
         if (e.key === 'Escape') { e.preventDefault(); finish(); return; }
         // Enter/space before the menu appears skips the typing; on the menu they press the focused button
@@ -100,10 +104,14 @@ export default function NeonHomeEffects({ projectCount, noteCount }: { projectCo
       window.addEventListener('keydown', onKey);
       cleanups.push(() => { clearTimeout(h); window.removeEventListener('keydown', onKey); });
       const neonOn = document.documentElement.dataset.theme !== 'clean';
-      if (seen || !neonOn) { boot.remove(); startTyping(); }
+      if (seen || !neonOn) { done = true; window.removeEventListener('keydown', onKey); boot.remove(); startTyping(); }
       else if (reduced()) { log.textContent = lines.join('\n'); h = window.setTimeout(finish, 300); }
       else step();
     }
+
+    /* ---------- timeline opens at today on narrow screens ---------- */
+    const tl = document.querySelector<HTMLElement>('.neon-root .log');
+    if (tl && tl.scrollWidth > tl.clientWidth) { tl.scrollLeft = tl.scrollWidth; tl.classList.add('scrolls'); }
 
     /* ---------- pixel-art images: downscale + ordered dither to the neon palette ---------- */
     const PAL = [[7, 4, 15], [36, 22, 90], [90, 60, 140], [123, 77, 255], [255, 46, 136], [201, 107, 138], [240, 190, 170], [62, 242, 255], [255, 178, 56], [232, 226, 255], [18, 122, 138], [163, 18, 90]];
@@ -143,7 +151,7 @@ export default function NeonHomeEffects({ projectCount, noteCount }: { projectCo
       const show = (list: { dir: string; slug: string; minutes: number; href: string }[], c: string) => {
         cmd.textContent = c;
         rows.innerHTML = list.length
-          ? list.map((n, i) => `<div class="row"><span class="i">${String(i + 1).padStart(2, '0')}</span><a href="${esc(n.href)}" data-nav>${esc(n.dir)}/${esc(n.slug)}.md</a><span class="m">${n.minutes}m read</span></div>`).join('')
+          ? list.map((n, i) => `<div class="row"><span class="i">${String(i + 1).padStart(2, '0')}</span><a href="${esc(n.href)}" data-nav>${esc(n.dir)}/<wbr>${esc(n.slug).replace(/-/g, '-<wbr>')}.md</a><span class="m">${n.minutes}m read</span></div>`).join('')
           : '<div class="row"><span class="i">--</span><span style="color:var(--pink)">no match. try "linear" or "llm"</span><span></span></div>';
       };
       const select = (i: number) => {

@@ -3,10 +3,10 @@
 .neon-root{position:relative;min-height:100vh;background:transparent}
 .neon-root{--void:#07040f; --night:#0d0820; --panel:rgba(10,6,26,.84);
   --pink:#ff2e88; --pink-d:#a3125a; --cyan:#3ef2ff; --cyan-d:#127a8a;
-  --amber:#ffb238; --amber-d:#9a5a00; --violet:#7b4dff; --text:#e8e2ff; --dim:#8f86b8;
+  --amber:#ffb238; --amber-d:#9a5a00; --violet:#7b4dff; --text:#ece7ff; --dim:#a39bc9;
   --px:4px;}
 .neon-root *{box-sizing:border-box}
-.neon-root{margin:0;color:var(--text);font:22px/1.25 var(--font-vt),monospace;overflow-x:hidden;cursor:crosshair}
+.neon-root{margin:0;color:var(--text);font:22px/1.3 var(--font-vt),monospace;overflow-x:hidden;cursor:crosshair}
 .neon-root ::selection{background:var(--pink);color:#fff}
 .neon-root a{color:var(--cyan);text-decoration:none}
 .neon-root a:hover{color:#fff;text-shadow:0 0 8px var(--cyan)}
@@ -247,3 +247,12 @@
 .neon-root .term .row a { overflow-wrap: anywhere; word-break: normal; hyphens: none; }
 .neon-root .blk.short { overflow: visible; z-index: 1; }
 .neon-root .more { display: inline-block; background: rgba(7, 4, 15, 0.85); padding: 10px 14px; margin-left: -14px; }
+/* re-critique fixes */
+.neon-root .nz-copy { background: linear-gradient(90deg, rgba(7, 4, 15, 0.96), rgba(7, 4, 15, 0.9) 80%, rgba(7, 4, 15, 0.6)); }
+.neon-root .sh { background: linear-gradient(90deg, rgba(7, 4, 15, 0.97), rgba(7, 4, 15, 0.94) 75%, rgba(7, 4, 15, 0.75)); }
+/* timeline: lane labels in a left gutter, clear of years and axis */
+.neon-root .log-inner { padding-left: 46px; }
+.neon-root .lane-l { left: -44px; top: 50%; transform: translateY(-50%); color: #a39bc9; }
+.neon-root .log.scrolls { -webkit-mask-image: linear-gradient(90deg, transparent, #000 40px); mask-image: linear-gradient(90deg, transparent, #000 40px); }
+.neon-root .case .no { line-height: 1.8; flex-wrap: wrap; gap: 0 12px; }
+.neon-root .term .row a { overflow-wrap: normal; word-break: normal; }

@@ -31,10 +31,10 @@ export default function NeonHome() {
       s: e.org.match(/\((\w+)\)/)?.[1] || e.org,
     })),
     wrk: [
-      { id: 'vebego', start: '2019-07', end: '2019-12', t: 'VB', s: 'airport', short: true },
+      { id: 'vebego', start: '2019-07', end: '2019-12', t: 'VEBEGO', s: '', short: true },
       { id: 'tx-intern', start: '2023-11', end: '2025-01', t: 'TX GROUP', s: 'market res.' },
       { id: 'helsana', start: '2025-01', end: '2025-07', t: 'HELSANA', s: '', short: true },
-      { id: 'zurich', start: '2025-11', end: '2026-12', t: 'ZURICH', s: 'data sci.', on: true },
+      { id: 'zurich', start: '2025-11', end: '2026-12', t: 'ZURICH', s: 'insurance', on: true },
     ],
   };
   const current = work.find((w) => !w.end)!;
@@ -74,8 +74,8 @@ export default function NeonHome() {
               <b>M.Sc. Applied Information &amp; Data Science, HSLU — December 2026.</b>
             </p>
             <div className="acts">
-              <a className="btn" href="#cases">▶ ACCESS FILES</a>
-              <a className="btn ghost" href="#log">VIEW RECORD</a>
+              <a className="btn" href="#cases">▶ SEE PROJECTS</a>
+              <Link className="btn ghost" href="/experience/">CV · EXPERIENCE</Link>
             </div>
           </div>
           <div className="card-id panel pix">

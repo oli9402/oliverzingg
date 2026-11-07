@@ -3,14 +3,16 @@
 import { useMemo, useState } from 'react';
 import ProjectCard, { type CardProject } from './ProjectCard';
 
+const group = (k: string) => (/thesis/i.test(k) ? 'Theses' : k);
+
 export default function ProjectGrid({ projects }: { projects: CardProject[] }) {
   const kinds = useMemo(() => {
     const m = new Map<string, number>();
-    projects.forEach((p) => m.set(p.kind, (m.get(p.kind) || 0) + 1));
+    projects.forEach((p) => m.set(group(p.kind), (m.get(group(p.kind)) || 0) + 1));
     return [...m.entries()].sort((a, b) => b[1] - a[1]);
   }, [projects]);
   const [kind, setKind] = useState<string | null>(null);
-  const list = kind ? projects.filter((p) => p.kind === kind) : projects;
+  const list = kind ? projects.filter((p) => group(p.kind) === kind) : projects;
 
   return (
     <>

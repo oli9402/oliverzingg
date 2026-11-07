@@ -1,10 +1,20 @@
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import NeonHud from '@/components/NeonHud';
+import NeonFooter from '@/components/NeonFooter';
+import NeonBackdrop from '@/components/NeonBackdrop';
+import Terminal from '@/components/Terminal';
+import Dossier from '@/components/Dossier';
+import SearchDialog from '@/components/SearchDialog';
+import { getProfile } from '@/lib/profile';
 
 export default function NotFound() {
+  const profile = getProfile();
   return (
     <>
+    <NeonBackdrop />
+    <NeonHud />
     <Header />
     <main id="main" className="wrap nf">
       <h1 className="h-page">This page moved or never existed.</h1>
@@ -16,6 +26,10 @@ export default function NotFound() {
       </div>
     </main>
     <Footer />
+    <NeonFooter />
+    <Terminal profile={profile} />
+    <Dossier profile={profile} />
+    <SearchDialog />
     </>
   );
 }
