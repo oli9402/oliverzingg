@@ -8,6 +8,7 @@ let ctx: AudioContext | null = null;
 let master: GainNode | null = null;
 let rainGain: GainNode | null = null;
 let humGain: GainNode | null = null;
+let rainLp: BiquadFilterNode | null = null;
 let on = false;
 let lastBlip = 0;
 
@@ -31,7 +32,7 @@ function build() {
   // rain: brighter noise
   const rain = ctx.createBufferSource(); rain.buffer = buf; rain.loop = true;
   const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 500;
-  const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 5000;
+  const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 5000; rainLp = lp;
   rainGain = ctx.createGain(); rainGain.gain.value = 0.25;
   rain.connect(hp).connect(lp).connect(rainGain).connect(master); rain.start();
   // city hum: deep rumble
@@ -40,6 +41,13 @@ function build() {
   humGain = ctx.createGain(); humGain.gain.value = 0.5;
   hum.connect(hlp).connect(humGain).connect(master); hum.start();
   applyEnv(window.__ozEnv);
+  applyScene(document.documentElement.dataset.scene);
+}
+
+// behind glass the rain sounds muffled and closer
+function applyScene(scene?: string) {
+  if (!ctx || !rainLp) return;
+  rainLp.frequency.setTargetAtTime(scene === 'window' ? 1400 : 5000, ctx.currentTime, 0.4);
 }
 
 function applyEnv(env?: Env) {
@@ -90,6 +98,7 @@ export function installSound() {
   document.addEventListener('pointerover', (e) => { if (isUI(e.target)) sfx.hover(); });
   document.addEventListener('click', (e) => { if (isUI(e.target)) sfx.click(); });
   window.addEventListener(ENV_EVENT, (e) => applyEnv((e as CustomEvent<Env>).detail));
+  window.addEventListener('oz:scene', (e) => applyScene((e as CustomEvent<string>).detail));
   window.addEventListener('oz:theme', () => { if (ctx && master) master.gain.setTargetAtTime(on && neon() ? 0.35 : 0, ctx.currentTime, 0.3); });
   // browsers only allow audio after a gesture: resume a stored "on" at the first one
   let stored = false;

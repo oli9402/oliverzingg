@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, ViewTransition } from 'react';
 import Link from 'next/link';
 import NeonHomeEffects from './NeonHomeEffects';
 import PixelCover from './PixelCover';
@@ -166,11 +166,13 @@ export default function NeonHome() {
           <div className="cases">
             {featured.map((p, i) => (
               <Link key={p.slug} href={`/projects/${p.slug}/`} className={`case${i === 0 ? ' big' : ''}`}>
+                <ViewTransition name={`cover-${p.slug}`} share="morph" default="none">
                 <div className={`thumb${p.cover && /\.(png|svg)$/i.test(p.cover) ? ' fig' : ''}`}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   {p.cover ? <img src={p.cover} alt="" loading="lazy" /> : null}
                   <span className="pc-art"><PixelCover slug={p.slug} kind={p.kind} art={p.art} /></span>
                 </div>
+                </ViewTransition>
                 <div className="no"><span>CASE {String(i + 1).padStart(3, '0')} · {p.kind.toUpperCase()}</span><span>{p.year}</span></div>
                 <h3>{p.title}</h3>
                 {i < 2 && <p>{p.summary}</p>}

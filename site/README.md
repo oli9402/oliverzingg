@@ -121,6 +121,8 @@ The newest entry also scrolls through the home page ticker.
 
 - **Boot menu** (first home visit per session): [1] quick dossier, [2] full record, [3] explore. The dossier is `components/Dossier.tsx`.
 - **Live Zürich city:** `lib/zurich.ts` reads the time of day and current weather from Open-Meteo (free, no key; visitors' browsers call `api.open-meteo.com`). Day, dusk, dawn and night skies; real rain, snow, fog and thunderstorms; the HUD shows the reading.
+- **Scenes:** the rooftop city (parallax layers, traffic, steam, aircraft lights) on overview pages; a rain-streaked apartment window behind reading pages (notes, projects, log). Hidden street scene: terminal `scene street` (`scene auto` resets). Code in `components/NeonBackdrop.tsx`.
+- **Transitions:** a rain sheet sweeps across on page changes (`components/RainWipe.tsx`), and a project card's cover morphs into its article header.
 - **Sound:** off by default; the ♪ button in the HUD turns on synthesised rain and 8-bit blips (`lib/sound.ts`, no audio files).
 - **Terminal:** press the backtick key (or TERM in the HUD). `help` lists commands: `ls`, `cd`, `cat cv`, `open`, `grep`, `dossier`, `hire`, `weather`, `theme`, `sound`. Commands live in `components/Terminal.tsx`.
 

@@ -21,7 +21,7 @@ export default function ProjectGrid({ projects }: { projects: CardProject[] }) {
         ))}
       </div>
       <div className="pgrid" aria-live="polite">
-        {list.map((p, i) => <ProjectCard key={p.slug} p={p} wide={!kind && i === 0} showSummary />)}
+        {list.map((p, i) => <ProjectCard key={p.slug} p={p} wide={!kind && i === 0} showSummary morph />)}
       </div>
     </>
   );

@@ -7,6 +7,7 @@ import { setTheme } from '@/lib/theme';
 import { isSoundOn, setSound, sfx } from '@/lib/sound';
 import { openDossier } from './Dossier';
 import { openSearch } from './SearchDialog';
+import { setSceneChoice } from '@/lib/scene';
 
 const EVENT = 'oz:terminal';
 export const openTerminal = () => window.dispatchEvent(new Event(EVENT));
@@ -26,6 +27,7 @@ const COMMANDS: [string, string][] = [
   ['weather', 'live conditions in Zürich'],
   ['theme neon|clean', 'switch the look'],
   ['sound on|off', 'rain and 8-bit blips'],
+  ['scene auto|rooftop|window|street', 'change the view outside'],
   ['history · clear · exit', ''],
 ];
 
@@ -178,6 +180,12 @@ export default function Terminal({ profile }: { profile: Profile }) {
       case 'sound':
         if (arg === 'on' || arg === 'off') { setSound(arg === 'on'); print({ t: `sound: ${arg}`, c: 'ok' }); }
         else print({ t: `sound is ${isSoundOn() ? 'on' : 'off'}. usage: sound on|off` });
+        break;
+      case 'scene':
+        if (['auto', 'rooftop', 'window', 'street'].includes(arg)) {
+          setSceneChoice(arg as 'auto');
+          print({ t: arg === 'street' ? 'scene: street level. Mind the puddles.' : arg === 'auto' ? 'scene: auto (rooftop, window on reading pages)' : `scene: ${arg}`, c: 'ok' });
+        } else print({ t: `scene is ${document.documentElement.dataset.scene || 'rooftop'}. usage: scene auto|rooftop|window|street` });
         break;
       case 'history': print(...[...hist.current].reverse().map((h, i) => ({ t: `  ${String(i + 1).padStart(3)}  ${h}`, c: 'dim' as const }))); break;
       case 'clear': greet(); break;

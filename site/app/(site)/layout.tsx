@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import SearchDialog from '@/components/SearchDialog';
 import SecretCode from '@/components/SecretCode';
 import NeonBackdrop from '@/components/NeonBackdrop';
+import RainWipe from '@/components/RainWipe';
 import NeonHud from '@/components/NeonHud';
 import NeonFooter from '@/components/NeonFooter';
 import Terminal from '@/components/Terminal';
@@ -20,11 +21,12 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <NeonHud />
       <Header />
       <main id="main">
-        {/* page content swaps with a CRT switch-off/on (theme-neon.css: ::view-transition-*(.crt)) */}
-        <ViewTransition default="crt">{children}</ViewTransition>
+        {/* page content washes out under a rain sweep (RainWipe + theme-neon.css ::view-transition-*(.rain)) */}
+        <ViewTransition default="rain">{children}</ViewTransition>
       </main>
       <Footer />
       <NeonFooter />
+      <RainWipe />
       <SearchDialog />
       <SecretCode />
       <Terminal profile={profile} />
