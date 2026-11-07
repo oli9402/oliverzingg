@@ -31,9 +31,9 @@ export default function NeonHome() {
       s: e.org.match(/\((\w+)\)/)?.[1] || e.org,
     })),
     wrk: [
-      { id: 'vebego', start: '2019-07', end: '2019-12', t: 'VB', s: 'airport' },
+      { id: 'vebego', start: '2019-07', end: '2019-12', t: 'VB', s: 'airport', short: true },
       { id: 'tx-intern', start: '2023-11', end: '2025-01', t: 'TX GROUP', s: 'market res.' },
-      { id: 'helsana', start: '2025-01', end: '2025-07', t: 'HLS', s: 'Helsana' },
+      { id: 'helsana', start: '2025-01', end: '2025-07', t: 'HELSANA', s: '', short: true },
       { id: 'zurich', start: '2025-11', end: '2026-12', t: 'ZURICH', s: 'data sci.', on: true },
     ],
   };
@@ -103,6 +103,27 @@ export default function NeonHome() {
           </div>
         </div>
 
+        <section className="s wrap" id="cases">
+          <div className="sh"><h2>CASE FILES</h2><p>{projects.length} files on record. Showing the priority cases.</p></div>
+          <div className="cases">
+            {featured.map((p, i) => (
+              <Link key={p.slug} href={`/projects/${p.slug}/`} className={`case${i === 0 ? ' big' : ''}`}>
+                <ViewTransition name={`cover-${p.slug}`} share="morph" default="none">
+                <div className={`thumb${p.cover && /\.(png|svg)$/i.test(p.cover) ? ' fig' : ''}`}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  {p.cover ? <img src={p.cover} alt="" loading="lazy" /> : null}
+                  <span className="pc-art"><PixelCover slug={p.slug} kind={p.kind} art={p.art} /></span>
+                </div>
+                </ViewTransition>
+                <div className="no"><span>CASE {String(i + 1).padStart(3, '0')} · {p.kind.toUpperCase()}</span><span>{p.year}</span></div>
+                <h3>{p.title}</h3>
+                {i < 2 && <p>{p.summary}</p>}
+              </Link>
+            ))}
+          </div>
+          <p className="more"><Link href="/projects/">▶ OPEN ALL {projects.length} CASE FILES</Link></p>
+        </section>
+
         <section className="s wrap" id="log">
           <div className="sh"><h2>MISSION LOG</h2><p>Education above the line. Field work below.</p></div>
           <div className="panel pix log">
@@ -119,10 +140,11 @@ export default function NeonHome() {
                     <Link
                       key={b.id}
                       href={`/experience/#${b.id}`}
-                      className={`blk${'on' in b && b.on ? ' on' : ''}`}
+                      className={`blk${'on' in b && b.on ? ' on' : ''}${'short' in b && b.short ? ' short' : ''}`}
+                      title={`${b.t} ${b.s}`.trim()}
                       style={{ left: `${pct(b.start)}%`, width: `${pct(b.end) - pct(b.start) - 0.4}%` }}
                     >
-                      <b>{b.t}</b>{b.s}
+                      <b>{b.t}</b><span>{b.s}</span>
                     </Link>
                   ))}
                   {lane === 'wrk' && (
@@ -161,27 +183,6 @@ export default function NeonHome() {
           </div>
         </section>
 
-        <section className="s wrap" id="cases">
-          <div className="sh"><h2>CASE FILES</h2><p>{projects.length} files on record. Showing the priority cases.</p></div>
-          <div className="cases">
-            {featured.map((p, i) => (
-              <Link key={p.slug} href={`/projects/${p.slug}/`} className={`case${i === 0 ? ' big' : ''}`}>
-                <ViewTransition name={`cover-${p.slug}`} share="morph" default="none">
-                <div className={`thumb${p.cover && /\.(png|svg)$/i.test(p.cover) ? ' fig' : ''}`}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  {p.cover ? <img src={p.cover} alt="" loading="lazy" /> : null}
-                  <span className="pc-art"><PixelCover slug={p.slug} kind={p.kind} art={p.art} /></span>
-                </div>
-                </ViewTransition>
-                <div className="no"><span>CASE {String(i + 1).padStart(3, '0')} · {p.kind.toUpperCase()}</span><span>{p.year}</span></div>
-                <h3>{p.title}</h3>
-                {i < 2 && <p>{p.summary}</p>}
-              </Link>
-            ))}
-          </div>
-          <p className="more"><Link href="/projects/">▶ OPEN ALL {projects.length} CASE FILES</Link></p>
-        </section>
-
         <section className="s wrap" id="bank">
           <div className="sh"><h2>DATABANK</h2><p>Personal knowledge base. {noteCount} entries, {areas.length} directories.</p></div>
           <div className="panel pix bank">
@@ -201,7 +202,12 @@ export default function NeonHome() {
           <div className="panel pix tx">
             <h2>INCOMING TRANSMISSION?<br />I ASK THE RIGHT<br />QUESTION FIRST.</h2>
             <p>Hiring for data science in Zürich or remote? Open a channel.</p>
-            <a className="btn" href={`mailto:${site.email}`}>▶ TRANSMIT: {site.email.toUpperCase()}</a>
+            <a className="btn" href={`mailto:${site.email}`}>▶ EMAIL {site.email.toUpperCase()}</a>
+            <div className="tx-more">
+              <Link href="/experience/">EXPERIENCE · CV</Link>
+              <a href={site.links.linkedin} target="_blank" rel="noopener">LINKEDIN ↗</a>
+              <a href={site.links.github} target="_blank" rel="noopener">GITHUB ↗</a>
+            </div>
           </div>
         </section>
       </div>

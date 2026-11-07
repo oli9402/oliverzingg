@@ -40,7 +40,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <div className="article-facts">
           <span><b>{p.kind}</b></span>
           <span className="num">{p.year}</span>
-          <span>{p.minutes} min read</span>
+          {p.minutes >= 3 && <span>{p.minutes} min read</span>}
           {p.tags.map((t) => <span key={t} className="chip">{t}</span>)}
         </div>
         {p.cover && !p.html.includes(p.cover) && (

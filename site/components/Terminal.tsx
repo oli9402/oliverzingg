@@ -100,7 +100,7 @@ export default function Terminal({ profile }: { profile: Profile }) {
     };
     switch (cmd.toLowerCase()) {
       case 'help':
-        print(...COMMANDS.map(([c, d]) => ({ t: `  ${c.padEnd(24)}${d}` })));
+        { const w = Math.max(...COMMANDS.map(([c]) => c.length)) + 3; print(...COMMANDS.map(([c, d]) => ({ t: `  ${c.padEnd(w)}${d}` }))); }
         break;
       case 'whoami':
         print({ t: `${profile.name} — ${profile.role}.`, c: 'acc' }, { t: profile.pitch }, { t: profile.now }, { t: profile.availability, c: 'ok' });

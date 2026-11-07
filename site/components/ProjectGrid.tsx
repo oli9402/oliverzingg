@@ -20,6 +20,7 @@ export default function ProjectGrid({ projects }: { projects: CardProject[] }) {
           <button key={k} className="filter" aria-pressed={kind === k} onClick={() => setKind(k)}>{k}<span className="num">{n}</span></button>
         ))}
       </div>
+      <h2 className="sr-only">{kind ? `${kind} projects` : 'All projects'}</h2>
       <div className="pgrid" aria-live="polite">
         {list.map((p, i) => <ProjectCard key={p.slug} p={p} wide={!kind && i === 0} showSummary morph />)}
       </div>

@@ -8,12 +8,13 @@ import { openSearch } from './SearchDialog';
 import { ENV_EVENT, type Env } from '@/lib/zurich';
 import { installSound, isSoundOn, setSound } from '@/lib/sound';
 import { openTerminal } from './Terminal';
+import { openDossier } from './Dossier';
 
 const NAV = [
-  { href: '/projects/', label: 'CASE FILES' },
-  { href: '/wiki/', label: 'DATABANK' },
-  { href: '/experience/', label: 'RECORD' },
-  { href: '/now/', label: 'LOG' },
+  { href: '/projects/', label: 'PROJECTS' },
+  { href: '/wiki/', label: 'NOTES' },
+  { href: '/experience/', label: 'EXPERIENCE · CV' },
+  { href: '/now/', label: 'NOW' },
 ];
 
 export default function NeonHud() {
@@ -48,11 +49,13 @@ export default function NeonHud() {
           {NAV.map((n) => (
             <Link key={n.href} href={n.href} aria-current={pathname.startsWith(n.href) ? 'page' : undefined}>{n.label}</Link>
           ))}
-          <Link href="/#tx">TRANSMIT</Link>
-          <button className="hud-btn" onClick={() => { setOpen(false); openSearch(); }}>SCAN /</button>
-          <button className="hud-btn" onClick={() => { setOpen(false); openTerminal(); }} title="Open the terminal (press ` anywhere)">TERM `</button>
+          <Link href="/#tx">CONTACT</Link>
+          <button className="hud-btn" onClick={() => { setOpen(false); openSearch(); }} title="Search projects and notes (press /)">SEARCH</button>
+          <button className="hud-btn" onClick={() => { setOpen(false); openTerminal(); }} title="Open the terminal (press ` anywhere)">TERMINAL</button>
+          <button className="hud-btn menu-only" onClick={() => setSound(!sound)} aria-pressed={sound}>{sound ? 'SOUND: ON' : 'SOUND: OFF'}</button>
         </nav>
         <div className="hud-right">
+          <button className="dossier-btn" onClick={() => { setOpen(false); openDossier(); }} title="One-screen summary: role, availability, top projects, contact">DOSSIER</button>
           <span className="clock" title={env?.live ? 'Live weather in Zürich (Open-Meteo)' : 'Weather unavailable'}>
             ZRH {time}{env && <> · {env.tempC !== null ? `${env.tempC}°C ` : ''}{env.label}</>} <i aria-hidden>▮</i>
           </span>

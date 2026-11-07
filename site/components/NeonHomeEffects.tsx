@@ -24,7 +24,7 @@ export default function NeonHomeEffects({ projectCount, noteCount }: { projectCo
       typing = true;
       const el = $('type');
       if (!el) return;
-      const msgs = ['> IDENT: PSYCHOLOGIST // DATA SCIENTIST', '> SKILLS: STUDY DESIGN · MIXED MODELS · ML', '> STATUS: SEEKING FULL-TIME ROLE, 2027'];
+      const msgs = ['> METHOD: STUDY DESIGN → MODEL → DECISION', '> TOOLS: R · PYTHON · MIXED MODELS · ML', '> STATUS: SEEKING FULL-TIME ROLE, 2027'];
       if (reduced()) { el.textContent = msgs[0]; return; }
       let m = 0, c = 0, del = false, h = 0;
       const tick = () => {
@@ -42,12 +42,12 @@ export default function NeonHomeEffects({ projectCount, noteCount }: { projectCo
       try { seen = sessionStorage.getItem('oz-neon-booted') === '1'; } catch { /* storage blocked: show the boot */ }
       const lines = [
         'OZ-BIOS v2.026  (c) ZÜRICH SECTOR',
-        'MEM CHECK ........................ 640K OK',
-        'MOUNT /dev/uzh/psychology ........ OK',
-        'MOUNT /dev/hslu/data_science ..... OK (until 12.2026)',
-        `LOAD  knowledge_base.db .......... ${noteCount} entries`,
-        `LOAD  case_files ................. ${projectCount} records`,
-        'LINK  zurich_insurance ........... ACTIVE',
+        'MEM CHECK ............. 640K OK',
+        'MOUNT uzh/psychology .. OK',
+        'MOUNT hslu/data_sci .. OK ~12.2026',
+        `LOAD  notes.db ........ ${noteCount} entries`,
+        `LOAD  case_files ...... ${projectCount} records`,
+        'LINK  zurich_ins ...... ACTIVE',
         '',
         'IDENTITY VERIFIED: ZINGG, OLIVER',
         'SELECT ACCESS MODE:',
@@ -66,7 +66,7 @@ export default function NeonHomeEffects({ projectCount, noteCount }: { projectCo
         m.className = 'boot-menu';
         m.setAttribute('role', 'group');
         m.setAttribute('aria-label', 'Choose how to view the site');
-        [['1', '[1] QUICK DOSSIER · 30s'], ['2', '[2] FULL RECORD'], ['3', '[3] EXPLORE THE CITY']].forEach(([k, label]) => {
+        [['1', '[1] QUICK DOSSIER · 30s'], ['2', '[2] FULL RECORD'], ['3', '[3] EXPLORE THE SITE']].forEach(([k, label]) => {
           const b = document.createElement('button');
           b.textContent = label;
           b.onclick = (e) => { e.stopPropagation(); choose(k); };

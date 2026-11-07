@@ -48,10 +48,10 @@
 .neon-root .card-id{position:relative}
 .neon-root .card-id .photo{position:relative;aspect-ratio:4/5;background:#000;overflow:hidden;border:4px solid var(--cyan)}
 .neon-root .card-id .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 22%;display:block}
-.neon-root .card-id .photo canvas{position:absolute;inset:0;width:100%;height:100%;display:block;image-rendering:pixelated;clip-path:inset(0 0 100% 0);animation:nz-pixelate 9s steps(90) infinite}
-@keyframes nz-pixelate{0%,6%{clip-path:inset(0 0 100% 0)}44%,56%{clip-path:inset(0 0 0 0)}94%,100%{clip-path:inset(0 0 100% 0)}}
-.neon-root .card-id .scan{position:absolute;z-index:1;left:-4px;right:-4px;height:4px;background:var(--amber);box-shadow:0 0 6px var(--amber),0 0 22px var(--amber);animation:nz-scan 9s steps(90) infinite}
-@keyframes nz-scan{0%,6%{top:0}44%,56%{top:calc(100% - 4px)}94%,100%{top:0}}
+.neon-root .card-id .photo canvas{position:absolute;inset:0;width:100%;height:100%;display:block;image-rendering:pixelated;clip-path:inset(0 0 100% 0);animation:nz-pixelate 4.2s steps(60) 0.6s 1 both}
+@keyframes nz-pixelate{0%{clip-path:inset(0 0 100% 0)}45%,55%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 0 100% 0)}}
+.neon-root .card-id .scan{position:absolute;z-index:1;left:-4px;right:-4px;height:4px;top:0;opacity:0;background:var(--amber);box-shadow:0 0 6px var(--amber),0 0 22px var(--amber);animation:nz-scan 4.2s steps(60) 0.6s 1 both}
+@keyframes nz-scan{0%{top:0;opacity:1}45%,55%{top:calc(100% - 4px);opacity:1}99%{top:0;opacity:1}100%{top:0;opacity:0}}
 .neon-root .card-id .meta{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin-top:14px;font-size:20px}
 .neon-root .card-id .meta dt{color:var(--dim)}
 .neon-root .card-id .meta dd{margin:0;color:var(--text)}
@@ -203,3 +203,47 @@
 }
 .neon-root .tx p { color: #d6ccff; }
 @media (prefers-reduced-motion: reduce) { .neon-root .tx::before, .neon-root .tx::after, .neon-root .tx h2 { animation: none; } }
+
+/* portrait: one sweep on load, then the sharp photo; hovering the card replays the scan */
+.neon-root .card-id:hover .photo canvas, .neon-root .card-id:focus-within .photo canvas { animation: nz-pixelate-hover 2.4s steps(40) 1 both; }
+.neon-root .card-id:hover .scan, .neon-root .card-id:focus-within .scan { animation: nz-scan-hover 2.4s steps(40) 1 both; }
+@keyframes nz-pixelate-hover{0%{clip-path:inset(0 0 100% 0)}50%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 0 100% 0)}}
+@keyframes nz-scan-hover{0%{top:0;opacity:1}50%{top:calc(100% - 4px);opacity:1}99%{top:0;opacity:1}100%{opacity:0}}
+
+/* ==========================================================================
+   Critique fixes (2026-11-07)
+   ========================================================================== */
+/* minimum pixel-font sizes: 10px floor for Press Start 2P labels */
+.neon-root .years { font-size: 10px; }
+.neon-root .lane-l { font-size: 10px; top: -4px; }
+.neon-root .now::before { font-size: 9px; }
+.neon-root .blk b { font-size: 10px; }
+.neon-root .case .no { font-size: 10px; }
+.neon-root .tag { font-size: 10px; }
+.neon-root .card-id .stamp { font-size: 11px; }
+.neon-root .sheet h3 { font-size: 11px; }
+/* contrast */
+.neon-root .case p { color: #b3abd9; }
+.neon-root .query input::placeholder { color: #9088bd; }
+.neon-root .dirs button[aria-selected=true] span { color: #fff; }
+.neon-root .lede { max-width: 44ch; color: #b9b1de; }
+/* section heads sit on a dark band so city signs never compete with them */
+.neon-root .sh { position: relative; padding: 14px 18px; margin-left: -18px; margin-right: -18px; background: linear-gradient(90deg, rgba(7, 4, 15, 0.92), rgba(7, 4, 15, 0.7) 70%, rgba(7, 4, 15, 0.35)); }
+.neon-root .sh p { color: #b9b1de; }
+/* narrow timeline blocks show one full word instead of a clipped pair */
+.neon-root .blk.short span { display: none; }
+.neon-root .blk.short b { overflow: visible; }
+/* contact: secondary routes beside the email */
+.neon-root .tx-more { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px 28px; margin-top: 26px; font: 11px var(--font-pixel), monospace; }
+.neon-root .tx-more a { color: var(--cyan); padding: 8px 4px; }
+.neon-root .tx-more a:hover { color: #fff; }
+/* boot screen: centred, readable skip, lines that fit a phone */
+.neon-root #boot { justify-content: center; align-items: flex-start; padding: 8vh max(24px, 8vw); }
+.neon-root #boot pre { max-width: 64ch; }
+.neon-root #boot .nz-skip { color: #c8c0ee; font-size: 20px; padding: 6px 8px; border: 2px solid #4a3f7a; }
+.neon-root #boot .nz-skip:hover { color: #fff; border-color: var(--cyan); }
+@media (max-width: 560px) { .neon-root #boot { font-size: 18px; padding: 72px 20px 24px; } .neon-root #boot pre { white-space: pre; overflow-x: hidden; } }
+/* databank filenames: break at slashes and dashes, never mid-word */
+.neon-root .term .row a { overflow-wrap: anywhere; word-break: normal; hyphens: none; }
+.neon-root .blk.short { overflow: visible; z-index: 1; }
+.neon-root .more { display: inline-block; background: rgba(7, 4, 15, 0.85); padding: 10px 14px; margin-left: -14px; }

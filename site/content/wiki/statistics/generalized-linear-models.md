@@ -5,7 +5,7 @@ order: 2
 
 Depending on the outcome variable, we can use different types of models. For example, if the outcome variable is binary, we can use a logistic regression model. If the outcome variable is continuous, we can use a linear regression model. If the outcome variable is count data, we can use a Poisson regression model.
 
-## Binary and binomial dependet variable
+## Binary and binomial dependent variable
 
 Binary and binomial data naturally fall within the range of 0 to 1 (and are mathematically the same: binary = total number of trials is 1). Using a linear regression model would there predict values outside of this range. This would be a extrapolation which would make sense. Furthermore, in the case of logistic regression using a identity link function (i.e. linear regression) the predicted values would be heavily be influences by extreme values. Therefore, we adapt the linear regression based on attributes of the dependent variables. Additionally, we can’t assume normal distribution of errors for inference. Therefore, with this kind of data we assume other distributions as binomial distribution.
 
