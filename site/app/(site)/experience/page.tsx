@@ -12,14 +12,13 @@ export const metadata: Metadata = {
 
 export default function ExperiencePage() {
   return (
-    <>
-      <section className="page-band on-blue">
-        <div className="wrap">
-          <h1 className="h-page">Experience</h1>
-          <p className="lede">M.Sc. Psychology (UZH) and M.Sc. Applied Information and Data Science (HSLU, December 2026). Working student in data science at Zurich Insurance. Open to full-time roles from January 2027.</p>
-        </div>
-      </section>
-      <div className="wrap cv-grid">
+    <div className="wrap">
+      <header className="page-band">
+        <p className="call"><b>&gt;</b><code>cv</code><span className="cmt"># updated November 2026</span></p>
+        <h1 className="h-page">Experience</h1>
+        <p className="lede">M.Sc. Psychology (UZH) and M.Sc. Applied Information and Data Science (HSLU, December 2026). Working student in data science at Zurich Insurance. Open to full-time roles from January 2027.</p>
+      </header>
+      <div className="cv-grid">
         <aside className="cv-side">
           <nav aria-label="On this page">
             <a href="#work">Work</a>
@@ -33,7 +32,7 @@ export default function ExperiencePage() {
           ) : (
             <PrintButton />
           )}
-          <a className="btn btn-ghost" href={`mailto:${site.email}`} style={{ marginTop: 10 }}><Mail /> Email me</a>
+          <a className="btn btn-ghost" href={`mailto:${site.email}`}><Mail /> Email me</a>
         </aside>
 
         <div>
@@ -106,6 +105,6 @@ export default function ExperiencePage() {
           </section>
         </div>
       </div>
-    </>
+    </div>
   );
 }

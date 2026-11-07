@@ -27,7 +27,7 @@ export type Project = {
   tags: string[];
   order: number;
   cover?: string;
-  /** optional pixel-art scene for neon mode, see components/PixelCover.tsx */
+  /** legacy frontmatter field from the neon theme; unused */
   art?: string;
   html: string;
   headings: Heading[];

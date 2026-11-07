@@ -1,17 +1,13 @@
 import type { Metadata, Viewport } from 'next';
-import { Archivo, JetBrains_Mono, Pixelify_Sans, Press_Start_2P, VT323 } from 'next/font/google';
+import { Geist, Martian_Mono } from 'next/font/google';
 import 'katex/dist/katex.min.css';
 import './globals.css';
-import './theme-neon.css';
-import './theme-neon-home.css';
+import './neon.css';
 import { site } from '@/lib/site';
 import { themeBootScript } from '@/lib/theme';
 
-const archivo = Archivo({ subsets: ['latin', 'latin-ext'], axes: ['wdth'], variable: '--font-archivo', display: 'swap' });
-const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap' });
-const pixel = Press_Start_2P({ weight: '400', subsets: ['latin'], variable: '--font-pixel', display: 'swap' });
-const pixsans = Pixelify_Sans({ subsets: ['latin', 'latin-ext'], weight: ['500', '600', '700'], variable: '--font-pixsans', display: 'swap' });
-const vt = VT323({ weight: '400', subsets: ['latin'], variable: '--font-vt', display: 'swap' });
+const geist = Geist({ subsets: ['latin', 'latin-ext'], variable: '--font-geist', display: 'swap' });
+const martian = Martian_Mono({ subsets: ['latin', 'latin-ext'], axes: ['wdth'], variable: '--font-martian', display: 'swap' });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -22,11 +18,17 @@ export const metadata: Metadata = {
   twitter: { card: 'summary_large_image' },
 };
 
-export const viewport: Viewport = { themeColor: '#07040f' };
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f8f8f6' },
+    { media: '(prefers-color-scheme: dark)', color: '#111317' },
+  ],
+  viewportFit: 'cover',
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-theme="neon" suppressHydrationWarning className={`${archivo.variable} ${mono.variable} ${pixel.variable} ${vt.variable} ${pixsans.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${geist.variable} ${martian.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>

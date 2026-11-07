@@ -45,8 +45,8 @@ No single angle should push out the others. The site should show the range.
 
 ## Brand Commitments
 
-- The user does not want a template look, and does not want a techy/dark hacker aesthetic.
-- Standing preference (2026-11-06): a classic portfolio structure (the category standard) executed at full craft and made distinctive, not a metaphor-driven concept world.
+- The user does not want a template look or hacker clichés (green-on-black, matrix rain, fake typing, glitch effects, sounds, boot screens).
+- Standing preference (2026-11-07, replaces the 2026-11-06 "not techy" line): technical and terminal-inspired but clean, in light and dark. The site reads like an R session (calls and printed results, data-frame tables, real code and output), with a working command bar. Running text stays in a sans at reading size; monospace is for structure, tables and code.
 
 - Name: Oliver Zingg. Site title "Oliver Zingg".
 - Contact channels: email (oliver9402@gmail.com), GitHub (oli9402), LinkedIn, X.

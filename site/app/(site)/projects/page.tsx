@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import ProjectGrid from '@/components/ProjectGrid';
-import { getProjects } from '@/lib/content';
+import ProjectTable from '@/components/ProjectTable';
+import { tableProjects } from '@/lib/table';
 
 export const metadata: Metadata = {
   title: 'Projects',
@@ -8,18 +8,17 @@ export const metadata: Metadata = {
 };
 
 export default function ProjectsPage() {
-  const projects = getProjects().map(({ slug, title, summary, year, kind, cover, art }) => ({ slug, title, summary, year, kind, cover, art }));
+  const projects = tableProjects();
   return (
-    <>
-      <section className="page-band on-blue">
-        <div className="wrap">
-          <h1 className="h-page">Projects</h1>
-          <p className="lede">Two theses graded 6, plus analyses, simulations and tools in R and Python. Each one has the code and the reasoning behind it.</p>
-        </div>
-      </section>
-      <div className="wrap">
-        <ProjectGrid projects={projects} />
+    <div className="wrap">
+      <header className="page-band">
+        <p className="call"><b>&gt;</b><code>projects</code><span className="cmt"># {projects.length} rows</span></p>
+        <h1 className="h-page">Projects</h1>
+        <p className="lede">Two theses graded 6, plus analyses, simulations and tools in R and Python. Open a row for a preview, or the title for the full write-up with code.</p>
+      </header>
+      <div className="page-body">
+        <ProjectTable projects={projects} initialOpen={['simpsons-paradox']} />
       </div>
-    </>
+    </div>
   );
 }

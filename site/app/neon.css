@@ -1,0 +1,132 @@
+/* ==========================================================================
+   Neon skin — the console theme at 2 a.m. in a rain-soaked city.
+   Same pages and structure; only tokens, glow and the backdrop change.
+   Magenta = action/accent, cyan = links/data, amber = strings/warnings.
+   Active when <html data-skin="neon">. Text keeps WCAG AA contrast on the panels.
+   ========================================================================== */
+
+:root[data-skin='neon'] {
+  --bg: #04050b;
+  --surface: rgba(10, 12, 26, 0.9);
+  --sunk: rgba(5, 7, 16, 0.92);
+  --ink: #eef3ff;
+  --text: #cdd6ef;
+  --dim: #98a3c7;
+  --faint: #7480a8;
+  --rule: rgba(80, 96, 170, 0.28);
+  --rule-strong: rgba(110, 128, 220, 0.42);
+  --accent: #ff3fb0;
+  --accent-ink: #12000b;
+  --accent-soft: rgba(255, 63, 176, 0.16);
+  --cyan: #3ce8ff;
+  --na: #ff6b8b;
+  --ok: #3cf5c8;
+  --str: #ffb648;
+  --fn: #b59cff;
+  --glow-a: 0 0 12px rgba(255, 63, 176, 0.55);
+  --glow-c: 0 0 12px rgba(60, 232, 255, 0.5);
+  --shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 63, 176, 0.25);
+  color-scheme: dark;
+}
+
+[data-skin='neon'] body { background: var(--bg); }
+[data-skin='neon'] ::selection { background: var(--accent); color: var(--accent-ink); }
+
+/* scanlines: very light, never over interactive contrast */
+[data-skin='neon'] body::after {
+  content: ''; position: fixed; inset: 0; z-index: 60; pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 3px);
+  mix-blend-mode: overlay;
+}
+
+/* header: dark glass with a neon underline */
+[data-skin='neon'] .site-header { background: rgba(4, 5, 11, 0.78); border-bottom-color: transparent; box-shadow: 0 1px 0 rgba(255, 63, 176, 0.55), 0 6px 24px -8px rgba(255, 63, 176, 0.45); }
+[data-skin='neon'] .brand { color: var(--ink); text-shadow: var(--glow-c); }
+[data-skin='neon'] .brand span { color: var(--cyan); }
+[data-skin='neon'] .nav a[aria-current='page'] { background: var(--accent-soft); }
+[data-skin='neon'] .nav a:hover { color: var(--cyan); background: rgba(60, 232, 255, 0.08); }
+
+/* type: neon tube headings */
+[data-skin='neon'] .hero h1 {
+  color: #fff;
+  text-shadow: 0 0 4px #fff, 0 0 18px rgba(255, 63, 176, 0.9), 0 0 42px rgba(255, 63, 176, 0.55), 2px 0 0 rgba(60, 232, 255, 0.55), -2px 0 0 rgba(255, 63, 176, 0.45);
+  animation: neon-on 1.6s steps(1) 1 both;
+}
+[data-skin='neon'] .h-page, [data-skin='neon'] .h-section { color: #fff; text-shadow: 0 0 14px rgba(60, 232, 255, 0.55); }
+[data-skin='neon'] .cursor { background: var(--accent); box-shadow: var(--glow-a), 0 0 30px rgba(255, 63, 176, 0.6); }
+[data-skin='neon'] .call b { color: var(--accent); text-shadow: var(--glow-a); }
+[data-skin='neon'] .call code { color: var(--cyan); }
+@keyframes neon-on {
+  0% { opacity: 0.15; } 8% { opacity: 1; } 12% { opacity: 0.3; } 18% { opacity: 1; } 22% { opacity: 0.55; } 30%, 100% { opacity: 1; }
+}
+
+/* links and buttons */
+[data-skin='neon'] a.link-arrow, [data-skin='neon'] .tib-foot a, [data-skin='neon'] .crumbs a, [data-skin='neon'] .ret a, [data-skin='neon'] .str dd a { color: var(--cyan); }
+[data-skin='neon'] .prose a { color: var(--cyan); text-decoration-color: rgba(60, 232, 255, 0.4); }
+[data-skin='neon'] .btn-primary, [data-skin='neon'] .btn-ink, [data-skin='neon'] .btn-hi { box-shadow: var(--glow-a), 0 0 0 1px rgba(255, 255, 255, 0.18) inset; }
+[data-skin='neon'] .btn-primary:hover, [data-skin='neon'] .btn-ink:hover { box-shadow: 0 0 22px rgba(255, 63, 176, 0.85); filter: none; }
+[data-skin='neon'] .btn-ghost:hover, [data-skin='neon'] .jump:hover, [data-skin='neon'] .icon-btn:hover { box-shadow: inset 0 0 0 1px var(--cyan), var(--glow-c); color: var(--cyan); border-color: var(--cyan); }
+[data-skin='neon'] :focus-visible { outline-color: var(--cyan); box-shadow: var(--glow-c); }
+
+/* panels: dark glass with a hairline glow so the rain stays behind the data */
+[data-skin='neon'] .tib, [data-skin='neon'] .tl, [data-skin='neon'] .tree, [data-skin='neon'] .note-card,
+[data-skin='neon'] .ret, [data-skin='neon'] .pager a, [data-skin='neon'] .prose pre, [data-skin='neon'] .prose .callout,
+[data-skin='neon'] .prose .table-wrap, [data-skin='neon'] .mobile-toc, [data-skin='neon'] .search-dialog {
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 0 1px rgba(60, 232, 255, 0.08), 0 18px 50px -24px rgba(255, 63, 176, 0.35);
+}
+[data-skin='neon'] .tib tr.row:hover td, [data-skin='neon'] .tl-row:hover { background: rgba(255, 63, 176, 0.07); }
+[data-skin='neon'] .tib-filters button[aria-pressed='true'] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); box-shadow: var(--glow-a); }
+[data-skin='neon'] .tib tr.row[aria-expanded='true'] .tog { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); box-shadow: var(--glow-a); }
+[data-skin='neon'] .tib td.c-y, [data-skin='neon'] .tib td.c-g { color: var(--cyan); }
+[data-skin='neon'] .det img { background: #fff; box-shadow: 0 0 0 1px rgba(60, 232, 255, 0.3); }
+[data-skin='neon'] .str dt { color: var(--cyan); }
+[data-skin='neon'] .str .ok { text-shadow: 0 0 10px rgba(60, 245, 200, 0.6); }
+
+/* timeline: bars become lit tubes */
+[data-skin='neon'] .bar { background: var(--cyan); box-shadow: var(--glow-c); }
+[data-skin='neon'] .bar.edu { background: transparent; box-shadow: inset 0 0 0 1.5px var(--cyan), var(--glow-c); }
+[data-skin='neon'] .bar.live { background: var(--accent); box-shadow: var(--glow-a); }
+[data-skin='neon'] .bar.live.edu { background: transparent; box-shadow: inset 0 0 0 1.5px var(--accent), var(--glow-a); }
+[data-skin='neon'] .bar.live::after { box-shadow: 0 0 0 4px var(--accent-soft), 0 0 18px var(--accent); }
+[data-skin='neon'] .tl-key i[style*='--ink'] { background: var(--cyan) !important; }
+[data-skin='neon'] .tree a.d { color: var(--accent); text-shadow: var(--glow-a); }
+[data-skin='neon'] .tree li::before, [data-skin='neon'] .tree li::after { border-color: rgba(60, 232, 255, 0.45); }
+
+/* portrait: graded into the night */
+[data-skin='neon'] .portrait img { filter: saturate(1.15) contrast(1.05) hue-rotate(-12deg); box-shadow: 0 0 0 1px rgba(255, 63, 176, 0.5), 0 0 40px -6px rgba(255, 63, 176, 0.55), 0 0 90px -20px rgba(60, 232, 255, 0.5); }
+
+/* wiki and CV accents */
+[data-skin='neon'] .wnav .area, [data-skin='neon'] .area-row .n { color: var(--accent); text-shadow: var(--glow-a); }
+[data-skin='neon'] .toc a.is-active { color: var(--cyan); border-left-color: var(--cyan); }
+[data-skin='neon'] .cv-entry .org, [data-skin='neon'] .statuslog time { color: var(--cyan); }
+[data-skin='neon'] .prose h2::before { color: var(--accent); }
+[data-skin='neon'] .prose .katex { color: var(--ink); }
+
+/* the backdrop canvas sits behind everything */
+.neon-sky { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; display: none; }
+[data-skin='neon'] .neon-sky { display: block; }
+
+/* header switch */
+.skin-btn { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: var(--radius); border: 1px solid var(--rule-strong); background: var(--surface); color: var(--dim); font: 500 12.5px var(--mono); font-stretch: 87.5%; cursor: pointer; white-space: nowrap; }
+.skin-btn i { width: 8px; height: 8px; border-radius: 50%; background: #ff3fb0; box-shadow: 0 0 8px #ff3fb0; }
+.skin-btn:hover { color: var(--ink); border-color: var(--ink); }
+[data-skin='neon'] .skin-btn { color: var(--accent); border-color: var(--accent); box-shadow: var(--glow-a); }
+[data-skin='neon'] .skin-btn i { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+[data-skin='neon'] .theme-btn { display: none; }
+@media (max-width: 560px) { .skin-btn .lbl { display: none; } .skin-btn { padding: 0 11px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-skin='neon'] .hero h1 { animation: none; }
+}
+@media print {
+  [data-skin='neon'] body::after, .neon-sky { display: none !important; }
+}
+
+/* reading comfort: the content column sits on dark glass, the city shows at the edges */
+[data-skin='neon'] #main > .wrap, [data-skin='neon'] #main.wrap {
+  background: linear-gradient(to bottom, rgba(4, 5, 11, 0.55), rgba(4, 5, 11, 0.82) 420px);
+  backdrop-filter: blur(3px);
+  box-shadow: 0 0 80px 40px rgba(4, 5, 11, 0.45);
+  padding-bottom: 48px;
+}

@@ -20,7 +20,7 @@ export default async function AreaPage({ params }: { params: Promise<{ area: str
   return (
     <div className="wrap">
       <header className="article-head">
-        <nav className="crumbs" aria-label="Breadcrumb"><Link href="/wiki/">Knowledge base</Link></nav>
+        <nav className="crumbs" aria-label="Breadcrumb"><Link href="/wiki/">wiki</Link><span aria-hidden>/</span><span>{a.slug}</span></nav>
         <h1 className="h-page">{a.title}</h1>
         <p className="lede">{a.summary}</p>
       </header>

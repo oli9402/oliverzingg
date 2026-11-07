@@ -1,11 +1,10 @@
-import { ViewTransition } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Toc, { MobileToc } from '@/components/Toc';
-import { isFigure } from '@/components/ProjectCard';
-import PixelCover from '@/components/PixelCover';
 import { getProject, getProjects } from '@/lib/content';
+
+const isFigure = (src?: string) => !!src && /\.(png|svg)$/i.test(src);
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -29,11 +28,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   return (
     <article className="wrap">
       <header className="article-head">
-        <ViewTransition name={`cover-${p.slug}`} share="morph" default="none">
-          <div className="article-art neon-only"><PixelCover slug={p.slug} kind={p.kind} art={p.art} /></div>
-        </ViewTransition>
         <nav className="crumbs" aria-label="Breadcrumb">
-          <Link href="/projects/">Projects</Link><span aria-hidden>/</span><span>{p.kind}</span>
+          <Link href="/projects/">projects</Link><span aria-hidden>/</span><span>{p.slug}</span>
         </nav>
         <h1 className="h-page h-article">{p.title}</h1>
         <p className="lede">{p.summary}</p>

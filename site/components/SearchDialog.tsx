@@ -2,8 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search } from './Icons';
-import { basePath } from '@/lib/site';
+import { basePath, site } from '@/lib/site';
+import { isNeon, setNeon, toggleTheme } from '@/lib/theme';
+
+type Quick = { k: string; t: string; u?: string; e?: string; run?: () => void };
 
 export type SearchDoc = { u: string; t: string; k: string; s: string; h: string; x: string };
 
@@ -98,15 +100,30 @@ export default function SearchDialog() {
     router.push(u);
   };
 
+  // Shown before anything is typed: pages and actions, so the bar works as a launcher too.
+  const quick: Quick[] = [
+    { k: 'page', t: 'Projects', u: '/projects/' },
+    { k: 'page', t: 'Knowledge base', u: '/wiki/' },
+    { k: 'page', t: 'Experience and CV', u: '/experience/' },
+    { k: 'page', t: 'Status log', u: '/now/' },
+    { k: 'action', t: 'Copy email address', e: site.email, run: () => { navigator.clipboard?.writeText(site.email).catch(() => {}); ref.current?.close(); } },
+    { k: 'action', t: 'Switch light / dark', run: () => { toggleTheme(); ref.current?.close(); } },
+    { k: 'action', t: 'Toggle neon mode', run: () => { setNeon(!isNeon()); ref.current?.close(); } },
+    { k: 'link', t: 'GitHub', e: 'oli9402', run: () => { window.open(site.links.github, '_blank', 'noopener'); ref.current?.close(); } },
+    { k: 'link', t: 'LinkedIn', run: () => { window.open(site.links.linkedin, '_blank', 'noopener'); ref.current?.close(); } },
+  ];
+  const runQuick = (item: Quick) => (item.u ? go(item.u) : item.run?.());
+  const listLen = terms.length ? results.length : quick.length;
+
   return (
     <dialog
       ref={ref}
       className="search-dialog"
-      aria-label="Search the site"
+      aria-label="Jump to a page, project or note"
       onClick={(e) => { if (e.target === ref.current) ref.current?.close(); }}
     >
       <div className="search-input">
-        <Search />
+        <span className="pr" aria-hidden>&gt;</span>
         <input
           ref={inputRef}
           value={q}
@@ -115,21 +132,34 @@ export default function SearchDialog() {
           aria-label="Search"
           aria-controls="search-results"
           onKeyDown={(e) => {
-            if (e.key === 'ArrowDown') { e.preventDefault(); setSel((s) => Math.min(s + 1, results.length - 1)); }
+            if (e.key === 'ArrowDown') { e.preventDefault(); setSel((s) => Math.min(s + 1, listLen - 1)); }
             if (e.key === 'ArrowUp') { e.preventDefault(); setSel((s) => Math.max(s - 1, 0)); }
-            if (e.key === 'Enter' && results[sel]) go(results[sel].u);
+            if (e.key === 'Enter') {
+              if (terms.length && results[sel]) go(results[sel].u);
+              if (!terms.length && quick[sel]) runQuick(quick[sel]);
+            }
           }}
         />
-        <kbd>Esc</kbd>
+        <span className="kbd">esc</span>
       </div>
-      {failed ? (
+      {!terms.length ? (
+        <ul className="search-results" id="search-results" role="listbox">
+          {quick.map((item, i) => (
+            <li key={item.t}>
+              <button type="button" role="option" aria-selected={i === sel} onMouseEnter={() => setSel(i)} onClick={() => runQuick(item)}>
+                <span className="k">{item.k}</span>
+                <span className="t"><b>{item.t}</b></span>
+                {item.e && <em>{item.e}</em>}
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : failed ? (
         <p className="search-empty">The search index didn&apos;t load. Check your connection and try again.</p>
-      ) : !terms.length ? (
-        <p className="search-empty">Type at least two letters. Search covers every project and knowledge-base note.</p>
       ) : !docs ? (
         <p className="search-empty">Loading the index…</p>
       ) : results.length === 0 ? (
-        <p className="search-empty">Nothing matches “{q}”. Try a broader term, like “regression” or “python”.</p>
+        <p className="search-empty">No match for “{q}”. Try a broader term, like “regression” or “python”.</p>
       ) : (
         <ul className="search-results" id="search-results" role="listbox">
           {results.map((r, i) => (
@@ -141,14 +171,17 @@ export default function SearchDialog() {
                 onMouseEnter={() => setSel(i)}
                 onClick={(e) => { e.preventDefault(); go(r.u); }}
               >
-                <span className="k">{r.k}</span>
-                <b>{highlight(r.t, terms)}</b>
-                <small>{highlight(snippet(r, terms), terms)}</small>
+                <span className="k">{r.k.toLowerCase()}</span>
+                <span className="t">
+                  <b>{highlight(r.t, terms)}</b>
+                  <small>{highlight(snippet(r, terms), terms)}</small>
+                </span>
               </a>
             </li>
           ))}
         </ul>
       )}
+      <div className="search-foot"><span><span className="kbd">↑↓</span> move</span><span><span className="kbd">↵</span> open</span><span><span className="kbd">esc</span> close</span></div>
     </dialog>
   );
 }

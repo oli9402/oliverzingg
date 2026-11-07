@@ -6,14 +6,13 @@ export const metadata: Metadata = { title: 'Status log', description: 'Dated upd
 export default function NowPage() {
   const log = getLog();
   return (
-    <>
-      <section className="page-band on-blue">
-        <div className="wrap">
-          <h1 className="h-page">{log.title}</h1>
-          <p className="lede">{log.summary}</p>
-        </div>
-      </section>
-      <div className="wrap">
+    <div className="wrap">
+      <header className="page-band">
+        <p className="call"><b>&gt;</b><code>log |&gt; arrange(desc(date))</code></p>
+        <h1 className="h-page">{log.title}</h1>
+        <p className="lede">{log.summary}</p>
+      </header>
+      <div>
         <ol className="statuslog">
           {log.entries.map((e, i) => (
             <li key={e.date} className={i === 0 ? 'is-latest' : undefined}>
@@ -23,6 +22,6 @@ export default function NowPage() {
           ))}
         </ol>
       </div>
-    </>
+    </div>
   );
 }

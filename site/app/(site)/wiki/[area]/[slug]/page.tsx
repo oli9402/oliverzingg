@@ -27,7 +27,7 @@ export default async function NotePage({ params }: { params: Promise<{ area: str
         <article className="doc-main">
           <header className="article-head" style={{ paddingTop: 0 }}>
             <nav className="crumbs" aria-label="Breadcrumb">
-              <Link href="/wiki/">Knowledge base</Link><span aria-hidden>/</span><Link href={`/wiki/${area}/`}>{r.area.title}</Link>
+              <Link href="/wiki/">wiki</Link><span aria-hidden>/</span><Link href={`/wiki/${area}/`}>{area}</Link><span aria-hidden>/</span><span>{slug}</span>
             </nav>
             <h1 className="h-page h-article">{note.title}</h1>
             <div className="article-facts"><span>{note.minutes} min read</span><span>{note.headings.filter((h) => h.level === 2).length || 1} sections</span></div>

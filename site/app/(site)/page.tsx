@@ -1,82 +1,129 @@
 import Link from 'next/link';
-import Timeline from '@/components/Timeline';
-import NeonHome from '@/components/NeonHome';
-import HomeIndex from '@/components/HomeIndex';
-import { ArrowRight, Mail } from '@/components/Icons';
-import { getAreas, getProjects } from '@/lib/content';
-import { education, work, formatRange } from '@/lib/cv';
+import CareerTimeline from '@/components/CareerTimeline';
+import CopyEmail from '@/components/CopyEmail';
+import ProjectTable from '@/components/ProjectTable';
+import { getAreas, getNote } from '@/lib/content';
+import { tableProjects } from '@/lib/table';
 import { site, withBase } from '@/lib/site';
 
+const HOME_ROWS = 8;
+
 export default function Home() {
-  const projects = getProjects();
+  const projects = tableProjects();
   const areas = getAreas();
-  const toRow = (e: (typeof work)[number]) => ({ id: e.id, range: formatRange(e), title: e.title, org: e.org, short: e.short, now: !e.end });
+  const notes = areas.reduce((n, a) => n + a.notes.length, 0);
+  const featured = getNote('statistics', 'generalized-linear-models');
+
+  // fs::dir_tree("wiki"): two notes per area, the rest summarised as "+n". Guide lines are CSS, not box-drawing glyphs.
+  const tree = areas.map((a) => {
+    const shown = a.notes.slice(0, 2);
+    return { a, shown, more: a.notes.length - shown.length };
+  });
 
   return (
-    <>
-      <NeonHome />
-      <div className="clean-only">
-      <section className="field on-blue" aria-labelledby="hero-name">
-        <div className="wrap hero">
-          <div>
-            <h1 id="hero-name" className="display hero-name">Oliver<br />Zingg</h1>
-            <p className="hero-copy">
-              <strong>Psychologist and data scientist in Zürich.</strong> I design the study, model the data and explain what it
-              means. M.Sc. in Applied Information and Data Science at HSLU, December&nbsp;2026.
-            </p>
-            <div className="hero-actions">
-              <Link href="/projects/" className="btn btn-hi">See my work <ArrowRight /></Link>
-              <Link href="/experience/" className="btn btn-ghost-light">View CV</Link>
-            </div>
+    <div className="wrap">
+      <section className="hero" aria-labelledby="hero-name">
+        <div>
+          <p className="call"><b>&gt;</b><code>oliver</code><span className="cmt"># psychologist × data scientist</span></p>
+          <h1 id="hero-name">Oliver<br />Zingg<span className="cursor" aria-hidden /></h1>
+          <p className="lede">
+            I design the study, model the data and <strong>explain what it means.</strong> Trained in research methods at UZH and
+            in machine learning at HSLU, working with data at Zurich Insurance.
+          </p>
+          <dl className="str">
+            <div><dt>status</dt><span className="ty">&lt;chr&gt;</span><dd className="ok">● open to full-time data science roles from Jan 2027</dd></div>
+            <div><dt>now</dt><span className="ty">&lt;chr&gt;</span><dd>Working student, data science · Zurich Insurance</dd></div>
+            <div><dt>thesis</dt><span className="ty">&lt;chr&gt;</span><dd>Double machine learning for robust decisions · due Dec 2026</dd></div>
+            <div><dt>stack</dt><span className="ty">&lt;list&gt;</span><dd>R, Python, SQL, Power BI, Quarto</dd></div>
+            <div><dt>based_in</dt><span className="ty">&lt;chr&gt;</span><dd>{site.location}</dd></div>
+          </dl>
+          <div className="cta">
+            {site.cvPdf ? (
+              <a className="btn btn-primary" href={withBase(site.cvPdf)} download>Download CV <span aria-hidden>↓</span></a>
+            ) : (
+              <Link className="btn btn-primary" href="/experience/">View CV <span aria-hidden>→</span></Link>
+            )}
+            <CopyEmail />
           </div>
-          <div className="hero-photo">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={withBase('/images/oliver.jpg')} alt="Portrait of Oliver Zingg outdoors in Zürich" fetchPriority="high" />
-          </div>
+        </div>
+        <figure className="portrait">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={withBase('/images/oliver.jpg')} alt="Portrait of Oliver Zingg outdoors in Zürich" fetchPriority="high" />
+          <figcaption><span>oliver.jpg</span><span>Zürich</span></figcaption>
+        </figure>
+      </section>
+
+      <section className="home-sec" id="projects" aria-labelledby="projects-title">
+        <p className="call"><b>&gt;</b><code>projects |&gt; arrange(rank)</code></p>
+        <div className="sec-head">
+          <h2 id="projects-title" className="h-section">Projects</h2>
+          <p>Theses, statistics and visualisation work in R and Python. Open a row to see the code and what it printed.</p>
+        </div>
+        <ProjectTable projects={projects.slice(0, HOME_ROWS)} total={projects.length} initialOpen={[projects[0].slug, 'simpsons-paradox']} showAllLink />
+      </section>
+
+      <section className="home-sec" id="experience" aria-labelledby="xp-title">
+        <p className="call"><b>&gt;</b><code>cv |&gt; plot_timeline(from = 2018)</code></p>
+        <div className="sec-head">
+          <h2 id="xp-title" className="h-section">Experience</h2>
+          <p>Two degrees in psychology, one in data science, and three companies alongside. <Link className="link-arrow" href="/experience/">Full CV →</Link></p>
+        </div>
+        <CareerTimeline />
+      </section>
+
+      <section className="home-sec" id="wiki" aria-labelledby="wiki-title">
+        <p className="call"><b>&gt;</b><code>fs::dir_tree(&quot;wiki&quot;)</code></p>
+        <div className="sec-head">
+          <h2 id="wiki-title" className="h-section">Knowledge base</h2>
+          <p>{notes} notes written for my future self, shared in case they help someone else.</p>
+        </div>
+        <div className="wiki-home">
+          <nav className="tree" aria-label="Knowledge base folders">
+            <Link href="/wiki/" className="d">wiki</Link>
+            <ul>
+              {tree.map(({ a, shown, more }) => (
+                <li key={a.slug}>
+                  <span className="dir"><Link href={`/wiki/${a.slug}/`} className="d">{a.slug}/</Link><span className="m">{a.notes.length} {a.notes.length === 1 ? 'note' : 'notes'}</span></span>
+                  <ul>
+                    {shown.map((n, i) => (
+                      <li key={n.slug}>
+                        <Link href={`/wiki/${a.slug}/${n.slug}/`}>{n.slug}</Link>
+                        {i === shown.length - 1 && more > 0 && <span className="m"> +{more}</span>}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          {featured && (
+            <article className="note-card">
+              <div className="crumb">wiki / {featured.area.slug} / {featured.note.slug}</div>
+              <h3>{featured.note.title}</h3>
+              <p>{featured.note.summary}</p>
+              {featured.note.headings.some((h) => h.level === 2) && (
+                <ol>{featured.note.headings.filter((h) => h.level === 2).slice(0, 5).map((h) => <li key={h.id}>{h.text}</li>)}</ol>
+              )}
+              <div className="foot">
+                <Link className="link-arrow" href={`/wiki/${featured.area.slug}/${featured.note.slug}/`}>Read the note →</Link>
+                <span>{featured.note.minutes} min</span>
+              </div>
+            </article>
+          )}
         </div>
       </section>
 
-      <div className="status">
-        <div className="wrap">
-          <div className="status-item now"><b>Zurich Insurance</b>Data science, since Nov 2025</div>
-          <div className="status-item"><b>HSLU</b>M.Sc. Data Science, until Dec 2026</div>
-          <div className="status-item"><b>University of Zurich</b>M.Sc. &amp; B.Sc. Psychology</div>
-          <div className="status-item"><b>Available</b>Full-time from January 2027</div>
+      <section className="contact" id="contact" aria-labelledby="contact-title">
+        <div>
+          <p className="call"><b>&gt;</b><code>contact()</code></p>
+          <h2 id="contact-title">Hiring for data science in Switzerland? I&apos;d like to hear about it.</h2>
         </div>
-      </div>
-
-      <section className="path wrap" aria-labelledby="path-title">
-        <div className="path-head">
-          <div>
-            <h2 id="path-title" className="h-section">Two tracks, one path.</h2>
-            <p className="lede">Six years of psychology and a data science degree, alongside market research, insights and analytics work.</p>
-          </div>
-          <div className="legend" aria-hidden>
-            <span><i style={{ background: 'var(--blue)' }} />Education</span>
-            <span><i style={{ background: 'var(--ink)' }} />Work</span>
-          </div>
-        </div>
-        <Timeline />
+        <pre className="ret">
+          <span>$email</span>{'\n'}<a href={`mailto:${site.email}`}>&quot;{site.email}&quot;</a>{'\n\n'}
+          <span>$github</span>{'\n'}<a href={site.links.github} target="_blank" rel="noopener">&quot;github.com/oli9402&quot;</a>{'\n\n'}
+          <span>$linkedin</span>{'\n'}<a href={site.links.linkedin} target="_blank" rel="noopener">&quot;in/oliver-zingg&quot;</a>
+        </pre>
       </section>
-
-      <HomeIndex
-        projects={projects.slice(0, 5).map(({ slug, title, summary, year, kind, cover, art }) => ({ slug, title, summary, year, kind, cover, art }))}
-        projectCount={projects.length}
-        areas={areas.map((a) => ({ slug: a.slug, title: a.title, summary: a.summary, count: a.notes.length, notes: a.notes.slice(0, 3).map(({ slug, title }) => ({ slug, title })) }))}
-        work={work.filter((w) => w.id !== 'vebego' && w.id !== 'tx-freelance').map((w) => (w.id === 'tx-intern' ? { ...toRow(w), range: 'Nov 2023 – Mar 2025', title: 'Intern, then freelancer' } : toRow(w)))}
-        education={education.map(toRow)}
-      />
-
-      <section className="close" id="contact" aria-labelledby="close-title">
-        <div className="wrap">
-          <h2 id="close-title">Looking for someone who asks the right question first?</h2>
-          <div className="close-actions">
-            <a className="btn btn-ink" href={`mailto:${site.email}`}><Mail /> {site.email}</a>
-            <a className="link-arrow" style={{ color: 'var(--ink)' }} href={site.links.linkedin} target="_blank" rel="noopener">Connect on LinkedIn <ArrowRight /></a>
-          </div>
-        </div>
-      </section>
-      </div>
-    </>
+    </div>
   );
 }
