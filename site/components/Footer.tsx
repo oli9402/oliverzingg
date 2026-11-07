@@ -3,7 +3,7 @@ import { site } from '@/lib/site';
 
 export default function Footer() {
   return (
-    <footer className="site-footer">
+    <footer className="site-footer clean-only">
       <div className="wrap">
         <div>
           <Link href="/" className="brand">Oliver<span>·</span>Zingg</Link>
@@ -34,7 +34,6 @@ export default function Footer() {
         <div className="fine">
           <span>© {new Date().getFullYear()} Oliver Zingg</span>
           <span>Notes are my own learning material. Corrections welcome.</span>
-          <Link href="/neon/" className="secret" title="Or type the code anywhere on the site">↑↑↓↓←→←→BA</Link>
         </div>
       </div>
     </footer>

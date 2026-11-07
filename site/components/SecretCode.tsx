@@ -1,13 +1,12 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { setTheme } from '@/lib/theme';
 
-// ↑ ↑ ↓ ↓ ← → ← → B A opens the neon-noir version of the site.
+// ↑ ↑ ↓ ↓ ← → ← → B A flips between the neon and clean themes.
 const CODE = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 
 export default function SecretCode() {
-  const router = useRouter();
   useEffect(() => {
     let i = 0;
     const onKey = (e: KeyboardEvent) => {
@@ -17,12 +16,13 @@ export default function SecretCode() {
       i = k === CODE[i] ? i + 1 : k === CODE[0] ? 1 : 0;
       if (i === CODE.length) {
         i = 0;
+        const next = document.documentElement.dataset.theme === 'clean' ? 'neon' : 'clean';
         document.documentElement.classList.add('to-neon');
-        setTimeout(() => router.push('/neon/'), 450);
+        setTimeout(() => { setTheme(next); document.documentElement.classList.remove('to-neon'); }, 420);
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [router]);
+  }, []);
   return null;
 }

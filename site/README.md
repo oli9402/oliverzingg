@@ -94,6 +94,15 @@ SITE_URL=https://your-domain.ch npm run build
 
 If you later want server features (a contact form, analytics, drafts), remove `output: 'export'` from `next.config.ts` and host on a Node-capable platform.
 
+## Themes
+
+The site has two looks, chosen with the button at the top right and remembered per browser:
+
+- **Neon (default):** 16-bit night city, pixel type, CRT scanlines. Styles in `app/theme-neon.css` (all pages) and `app/theme-neon-home.css` (the home page, `components/NeonHome.tsx`). Long-form pages use a readable monospace.
+- **Clean:** the original ultramarine design in `app/globals.css`, documented in `DESIGN.md`.
+
+Both themes render the same pages; `<html data-theme="neon|clean">` decides which chrome shows (`.neon-only`, `.clean-only`). A script in `<head>` applies the stored choice before the first paint. The code ↑↑↓↓←→←→BA flips between them too.
+
 ## Search
 
 `/search-index.json` is generated at build time from every project and note. The search dialog (press `/` or ⌘K) loads it on first use and searches entirely in the browser.

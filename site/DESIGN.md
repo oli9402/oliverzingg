@@ -116,6 +116,8 @@ components:
 
 # Design System: Oliver Zingg
 
+> This file documents the **clean** theme. Since 2026-11-07 the default theme is **neon** (16-bit night city: void `#07040f`, pink `#ff2e88`, cyan `#3ef2ff`, amber `#ffb238`, violet `#7b4dff`; Press Start 2P for headings, VT323 for UI, JetBrains Mono for reading). Its tokens live in `app/theme-neon.css`.
+
 ## Overview
 
 **Creative North Star: "The Confident Standard"**

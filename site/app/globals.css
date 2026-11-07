@@ -546,10 +546,18 @@ html { scrollbar-color: var(--line-strong) transparent; }
 /* breathing room between the page body and the footer
    (the home page ends on the yellow contact band, which sits flush on the footer) */
 #main { padding-bottom: clamp(80px, 10vw, 136px); }
-#main:has(> .close:last-child) { padding-bottom: 0; }
+html[data-theme="clean"] #main:has(> .clean-only > .close:last-child) { padding-bottom: 0; }
 
 /* secret-code transition into neon mode: a quick CRT switch-off */
 @keyframes to-neon { 0% { filter: none; transform: none; } 60% { filter: brightness(2.4) saturate(0); transform: scaleY(0.02); } 100% { filter: brightness(0); transform: scaleY(0.002); } }
 html.to-neon body { animation: to-neon 0.45s cubic-bezier(0.6, 0, 1, 1) forwards; transform-origin: 50% 50%; background: #07040f; }
 .site-footer .secret { font: 500 12px var(--mono); letter-spacing: 0.1em; color: #4a5070; }
 .site-footer .secret:hover { color: #ff2e88; text-shadow: 0 0 8px rgba(255, 46, 136, 0.7); }
+
+/* clean header: switch to the 16-bit theme */
+.theme-toggle-clean { display: inline-flex; align-items: center; gap: 8px; margin-left: 8px; padding: 8px 12px; border-radius: var(--radius); border: 1px solid var(--line-strong); background: var(--ink); color: #fff; font: 600 14px var(--font); cursor: pointer; }
+.theme-toggle-clean span { color: var(--hi); }
+.theme-toggle-clean:hover { background: var(--blue); border-color: var(--blue); }
+.is-home .theme-toggle-clean { background: var(--hi); color: var(--ink); border-color: var(--hi); }
+.is-home .theme-toggle-clean span { color: var(--ink); }
+@media (max-width: 860px) { .theme-toggle-clean, .is-home .theme-toggle-clean { margin: 12px 0 0; justify-content: center; } }

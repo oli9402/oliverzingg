@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Timeline from '@/components/Timeline';
+import NeonHome from '@/components/NeonHome';
 import HomeIndex from '@/components/HomeIndex';
 import { ArrowRight, Mail } from '@/components/Icons';
 import { getAreas, getProjects } from '@/lib/content';
@@ -13,6 +14,8 @@ export default function Home() {
 
   return (
     <>
+      <NeonHome />
+      <div className="clean-only">
       <section className="field on-blue" aria-labelledby="hero-name">
         <div className="wrap hero">
           <div>
@@ -73,6 +76,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </div>
     </>
   );
 }

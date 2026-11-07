@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Menu, Close, Search } from './Icons';
 import { openSearch } from './SearchDialog';
+import ThemeToggle from './ThemeToggle';
 
 const NAV = [
   { href: '/projects/', label: 'Projects' },
@@ -19,7 +20,7 @@ export default function Header() {
   useEffect(() => setOpen(false), [pathname]);
 
   return (
-    <header className={`site-header${isHome ? ' is-home on-blue' : ''}`}>
+    <header className={`site-header clean-only${isHome ? ' is-home on-blue' : ''}`}>
       <div className="wrap">
         <Link href="/" className="brand" aria-label="Oliver Zingg, home">
           Oliver<span>·</span>Zingg
@@ -38,6 +39,7 @@ export default function Header() {
           <button className="search-btn" onClick={() => { setOpen(false); openSearch(); }}>
             <Search /> Search <kbd>/</kbd>
           </button>
+          <ThemeToggle to="neon" />
         </nav>
       </div>
     </header>
